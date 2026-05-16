@@ -406,7 +406,6 @@
     <div class="loading-text">Loading <span class="loading-dots"><span></span><span></span><span></span></span></div>
 </div>
 
-<!-- AUTH -->
 <div class="auth-wrapper" id="authWrapper" style="display:none">
     <div class="auth-page" id="loginPage">
         <div class="auth-card">
@@ -447,7 +446,6 @@
     </div>
 </div>
 
-<!-- APP -->
 <div id="appWrapper" style="display:none">
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="sidebar" id="sidebar">
@@ -485,8 +483,6 @@
             </div>
         </header>
         <div class="content">
-
-            <!-- Dashboard -->
             <div class="page-view active" id="page-dashboard">
                 <div class="welcome-section animate-in"><div class="welcome-text" id="welcomeText">Welcome back</div><div class="welcome-sub"><i class="fas fa-circle"></i> Your account is active and running smoothly</div></div>
                 <div class="balance-card animate-in d1"><div class="balance-decor balance-decor-1"></div><div class="balance-decor balance-decor-2"></div><div class="balance-top"><div class="balance-label"><i class="fas fa-shield-alt"></i> Total Balance</div><div class="balance-status"><span class="dot"></span> Active</div></div><div class="balance-amount"><span class="currency">PKR</span> <span id="dashBalance">0</span></div></div>
@@ -500,25 +496,19 @@
                     <div class="info-card animate-in d5"><div class="info-card-header"><i class="fab fa-whatsapp"></i><h3>WhatsApp Channel</h3></div><div class="info-card-body wa-card"><div class="wa-icon"><i class="fab fa-whatsapp"></i></div><div class="wa-title">Join Finvexa Updates</div><div class="wa-desc">Join our WhatsApp channel to get instant notifications for every update, new plan and offer.</div><a href="https://whatsapp.com/channel/0029VbCXnui2f3EPRt7YWT0f" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> Join Channel</a></div></div>
                 </div>
             </div>
-
-            <!-- Packages -->
             <div class="page-view" id="page-packages">
                 <div class="packages-page-header animate-in"><div class="packages-page-title">Investment Packages</div><div class="packages-page-sub">Choose a plan that suits your budget — starting from PKR 20</div></div>
                 <div class="packages-grid" id="packagesGrid"></div>
             </div>
-
-            <!-- Buy Method -->
             <div class="page-view" id="page-buy-method">
                 <div class="buy-method-wrap animate-in">
                     <button class="back-btn" onclick="navigateTo('packages')"><i class="fas fa-arrow-left"></i> Back to Packages</button>
                     <div class="buy-method-title">Select Payment Method</div>
                     <div class="buy-method-sub">Choose how you want to pay for the selected package</div>
                     <div class="buy-selected-plan"><div><div class="plan-label">Selected Plan</div><div class="plan-info" id="buyMethodPlanName">-</div></div><div class="plan-price" id="buyMethodPlanPrice">-</div></div>
-                    <div class="method-card" onclick="navigateTo('buy-payment')"><div class="method-icon" style="background:var(--easypaisa-light)"><i class="fas fa-mobile-alt" style="color:var(--easypaisa)"></i></div><div class="method-name">Easypaisa</div><div class="method-flag">🇵🇰 Pakistan</div><div class="method-arrow"><i class="fas fa-arrow-right"></i></div></div>
+                    <div class="method-card" onclick="navigateTo('buy-payment')"><div class="method-icon" style="background:var(--easypaisa-light)"><i class="fas fa-mobile-alt" style="color:var(--easypaisa)"></i></div><div class="method-name">Easypaisa</div><div class="method-flag">Pakistan</div><div class="method-arrow"><i class="fas fa-arrow-right"></i></div></div>
                 </div>
             </div>
-
-            <!-- Buy Payment -->
             <div class="page-view" id="page-buy-payment">
                 <div class="buy-payment-wrap animate-in">
                     <button class="back-btn" onclick="navigateTo('buy-method')"><i class="fas fa-arrow-left"></i> Back</button>
@@ -526,7 +516,7 @@
                     <div class="buy-method-sub">Send payment to the account below and fill the form</div>
                     <div class="buy-selected-plan"><div><div class="plan-label">Selected Plan</div><div class="plan-info" id="buyPayPlanName">-</div></div><div class="plan-price" id="buyPayPlanPrice">-</div></div>
                     <div class="payment-details-card">
-                        <div class="payment-details-header"><i class="fas fa-mobile-alt"></i><span>Easypaisa 🇵🇰</span></div>
+                        <div class="payment-details-header"><i class="fas fa-mobile-alt"></i><span>Easypaisa</span></div>
                         <div class="payment-details-body">
                             <div class="payment-row"><span class="payment-row-label">Account Name</span><span class="payment-row-value">TAUFEEQ AHMED <button class="copy-sm" onclick="copyText('TAUFEEQ AHMED')"><i class="fas fa-copy"></i></button></span></div>
                             <div class="payment-row"><span class="payment-row-label">Account Number</span><span class="payment-row-value">03262550724 <button class="copy-sm" onclick="copyText('03262550724')"><i class="fas fa-copy"></i></button></span></div>
@@ -538,15 +528,13 @@
                         <div class="form-group"><label class="form-label">Transaction ID</label><div class="form-input-wrap"><input type="text" class="form-input" id="payTxId" placeholder="Enter your Easypaisa Transaction ID"><i class="fas fa-receipt"></i></div><div class="form-error" id="payTxIdErr"></div></div>
                         <div class="form-group">
                             <label class="form-label">Payment Screenshot</label>
-                            <div class="upload-area" id="uploadArea"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*"></div>
+                            <div class="upload-area" id="uploadArea"><i class="fas fa-cloud-upload-alt"></i><p>Drag and drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*"></div>
                             <div class="form-error" id="payScreenshotErr"></div>
                         </div>
                         <button class="confirm-btn" id="confirmPayBtn" onclick="submitDeposit()"><span class="btn-text"><i class="fas fa-paper-plane"></i> Confirm Deposit Request</span><div class="spinner"></div></button>
                     </div>
                 </div>
             </div>
-
-            <!-- Wallet -->
             <div class="page-view" id="page-wallet">
                 <div class="wallet-balance-card animate-in">
                     <div class="wallet-balance-label"><i class="fas fa-wallet"></i> Available Balance</div>
@@ -557,8 +545,6 @@
                 </div>
                 <div class="info-card animate-in d1"><div class="info-card-header"><i class="fas fa-info-circle"></i><h3>Withdrawal Info</h3></div><div class="info-card-body"><p class="about-text">Minimum withdrawal amount is <strong>PKR 5</strong>. Withdrawals are processed within 24 hours. You can withdraw via Easypaisa, JazzCash, NayaPay, SadaPay, Upaisa, or Bank Transfer. Make sure your account details are correct before submitting.</p></div></div>
             </div>
-
-            <!-- Withdraw Method -->
             <div class="page-view" id="page-withdraw-method">
                 <div class="buy-method-wrap animate-in">
                     <button class="back-btn" onclick="navigateTo('wallet')"><i class="fas fa-arrow-left"></i> Back to Wallet</button>
@@ -567,8 +553,6 @@
                     <div class="withdraw-methods-grid" id="withdrawMethodsGrid"></div>
                 </div>
             </div>
-
-            <!-- Withdraw Form -->
             <div class="page-view" id="page-withdraw-form">
                 <div class="withdraw-form-wrap animate-in">
                     <button class="back-btn" onclick="navigateTo('withdraw-method')"><i class="fas fa-arrow-left"></i> Back</button>
@@ -589,8 +573,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Transactions -->
             <div class="page-view" id="page-transactions">
                 <div class="tx-page-header animate-in"><div class="tx-page-title">Transactions</div><div class="tx-page-sub">Track all your deposits and withdrawals</div></div>
                 <div class="tx-tabs animate-in d1">
@@ -600,17 +582,12 @@
                 </div>
                 <div class="tx-list" id="txList"><div class="empty-state"><i class="fas fa-inbox"></i><h3>No Transactions Yet</h3><p>Your transactions will appear here.</p></div></div>
             </div>
-
-            <!-- Tasks -->
             <div class="page-view" id="page-tasks">
                 <div class="task-page-header animate-in"><div class="task-page-title">Daily Earning Tasks</div><div class="task-page-sub">Claim your daily earnings from active packages — once every 24 hours</div></div>
                 <div class="task-grid" id="taskGrid"><div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Tasks will appear here once your package deposit is approved.</p></div></div>
             </div>
-
-            <!-- Referral -->
             <div class="page-view" id="page-referral">
                 <div class="packages-page-header animate-in"><div class="packages-page-title">Referral Program</div><div class="packages-page-sub">Earn 15% commission when your friends activate a package</div></div>
-                
                 <div class="info-card animate-in d1">
                     <div class="info-card-header"><i class="fas fa-link"></i><h3>Your Referral Link</h3></div>
                     <div class="info-card-body">
@@ -621,7 +598,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="info-card animate-in d2" style="margin-top:18px">
                     <div class="info-card-header"><i class="fas fa-users"></i><h3>Team Statistics</h3></div>
                     <div class="info-card-body">
@@ -639,12 +615,11 @@
                             <div class="rstat-card">
                                 <div class="rstat-icon" style="background:var(--warning-light);color:var(--warning)"><i class="fas fa-coins"></i></div>
                                 <div class="rstat-value" id="refTeamEarnings">0</div>
-                                <div class="rstat-label">Team Earnings</div>
+                                <div class="rstat-label">My Commission</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="info-card animate-in d3" style="margin-top:18px">
                     <div class="info-card-header"><i class="fas fa-user-friends"></i><h3>Your Team Members</h3></div>
                     <div class="info-card-body" id="refTeamList">
@@ -652,25 +627,19 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Support -->
             <div class="page-view" id="page-support">
                 <div class="packages-page-header animate-in"><div class="packages-page-title">Support</div><div class="packages-page-sub">Contact our admin team for help and assistance</div></div>
                 <div class="info-card animate-in d1"><div class="info-card-header"><i class="fas fa-user-tie"></i><h3>Admin Contact</h3></div><div class="info-card-body"><div class="contact-grid"><div class="contact-item"><div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-envelope"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Email Address</div><div class="contact-detail-value">wmaker552@gmail.com</div></div><button class="contact-action" onclick="copyText('wmaker552@gmail.com')"><i class="fas fa-copy"></i></button></div><div class="contact-item"><div class="contact-icon" style="background:#dcfce7;color:#25d366"><i class="fab fa-whatsapp"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">WhatsApp Number</div><div class="contact-detail-value">03433335691</div></div><button class="contact-action" onclick="copyText('03433335691')"><i class="fas fa-copy"></i></button></div></div><div style="text-align:center;margin-top:24px"><a href="https://wa.me/923433335691" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> Message on WhatsApp</a></div></div></div>
             </div>
-
-            <!-- Profile -->
             <div class="page-view" id="page-profile">
                 <div class="packages-page-header animate-in"><div class="packages-page-title">Profile</div><div class="packages-page-sub">Your account details</div></div>
                 <div class="info-card animate-in d1"><div class="info-card-body" style="text-align:center;padding:40px 22px"><div class="profile-avatar-lg" id="profileAvatar">?</div><div class="profile-name" id="profileName">-</div><div class="profile-role">Member</div></div></div>
                 <div class="info-card animate-in d2" style="margin-top:16px"><div class="info-card-header"><i class="fas fa-id-card"></i><h3>Account Details</h3></div><div class="info-card-body"><div class="contact-grid"><div class="contact-item"><div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-user"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Username</div><div class="contact-detail-value" id="profileUsername">-</div></div></div><div class="contact-item"><div class="contact-icon" style="background:#dcfce7;color:#25d366"><i class="fas fa-phone"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Phone Number</div><div class="contact-detail-value" id="profilePhone">-</div></div></div><div class="contact-item"><div class="contact-icon" style="background:var(--warning-light);color:var(--warning)"><i class="fas fa-calendar-alt"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Joined On</div><div class="contact-detail-value" id="profileJoined">-</div></div></div></div></div></div>
             </div>
-
         </div>
     </main>
 </div>
 
-<!-- Screenshot Modal -->
 <div class="modal-overlay" id="screenshotModal">
     <div class="modal-content">
         <div class="modal-header"><h3>Payment Screenshot</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
@@ -685,20 +654,25 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
-// Check for Referral Parameter in URL on page load
 var urlParams = new URLSearchParams(window.location.search);
 var refParam = urlParams.get('ref');
 if (refParam) {
     localStorage.setItem('finvexaRefCode', refParam.toLowerCase());
-    // Clean the URL without reloading
     window.history.replaceState({}, document.title, window.location.pathname);
 }
 
-var firebaseConfig={apiKey:"AIzaSyBapeJ4v7gy6ja3iHMnr6xbIBVcmqV3nT8",authDomain:"watbuy-ffd8a.firebaseapp.com",projectId:"watbuy-ffd8a",storageBucket:"watbuy-ffd8a.firebasestorage.app",messagingSenderId:"180313348083",appId:"1:180313348083:web:df60f9130d3bd9ecb12486"};
+var firebaseConfig = {
+    apiKey: "AIzaSyBapeJ4v7gy6ja3iHMnr6xbIBVcmqV3nT8",
+    authDomain: "watbuy-ffd8a.firebaseapp.com",
+    projectId: "watbuy-ffd8a",
+    storageBucket: "watbuy-ffd8a.firebasestorage.app",
+    messagingSenderId: "180313348083",
+    appId: "1:180313348083:web:df60f9130d3bd9ecb12486"
+};
 firebase.initializeApp(firebaseConfig);
-var auth=firebase.auth(),db=firebase.database();
+var auth = firebase.auth(), db = firebase.database();
 
-var packageData=[
+var packageData = [
     {name:'Starter',price:20,daily:2,total:60,ret:'200%',support:'Basic Support'},
     {name:'Micro',price:50,daily:5,total:150,ret:'200%',support:'Basic Support'},
     {name:'Bronze',price:100,daily:8,total:240,ret:'240%',support:'Basic Support'},
@@ -716,7 +690,7 @@ var packageData=[
     {name:'VIP',price:50000,daily:5250,total:157500,ret:'315%',support:'Dedicated Manager'}
 ];
 
-var withdrawMethods=[
+var withdrawMethods = [
     {id:'easypaisa',name:'Easypaisa',icon:'fas fa-mobile-alt',color:'var(--easypaisa)',colorLight:'var(--easypaisa-light)'},
     {id:'jazzcash',name:'JazzCash',icon:'fas fa-mobile-alt',color:'var(--jazzcash)',colorLight:'var(--jazzcash-light)'},
     {id:'nayapay',name:'NayaPay',icon:'fas fa-mobile-alt',color:'var(--nayapay)',colorLight:'var(--nayapay-light)'},
@@ -725,68 +699,77 @@ var withdrawMethods=[
     {id:'bank',name:'Bank Transfer',icon:'fas fa-university',color:'var(--bank)',colorLight:'var(--bank-light)'}
 ];
 
-var currentUser=null,currentUserData=null,selectedPkg=null,screenshotBase64=null,selectedWdMethod=null;
-var cachedDeposits=null,cachedWithdrawals=null,currentTxFilter='all',tasksData=null;
+var currentUser = null, currentUserData = null, selectedPkg = null, screenshotBase64 = null, selectedWdMethod = null;
+var cachedDeposits = null, cachedWithdrawals = null, currentTxFilter = 'all', tasksData = null;
 
-function normalizePhone(p){var c=p.replace(/[^0-9]/g,'');if(c.startsWith('0')&&c.length>=11)c='92'+c.substring(1);if(!c.startsWith('92'))c='92'+c;return c}
-function phoneToEmail(p){return normalizePhone(p)+'@finvexa.pk'}
-function formatPhone(p){var c=normalizePhone(p);return '+92 '+c.substring(2,5)+' '+c.substring(5)}
-function formatNum(n){return Number(n||0).toLocaleString()}
-function formatDate(ts){if(!ts)return'-';var d=new Date(ts);var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
-function formatFullDate(ts){if(!ts)return'-';var d=new Date(ts);var months=['January','February','March','April','May','June','July','August','September','October','November','December'];var h=d.getHours();var m=String(d.getMinutes()).padStart(2,'0');var ampm=h>=12?'PM':'AM';h=h%12;if(h===0)h=12;return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear()+', '+h+':'+m+' '+ampm}
-function showErr(id,msg){var el=document.getElementById(id);if(el){el.textContent=msg;el.classList.add('show')}}
-function clearErr(id){var el=document.getElementById(id);if(el){el.textContent='';el.classList.remove('show')}}
-function clearAllErr(){document.querySelectorAll('.form-error').forEach(function(e){e.textContent='';e.classList.remove('show')})}
-function getPkgInfo(name){for(var i=0;i<packageData.length;i++){if(packageData[i].name===name)return packageData[i]}return null}
+function normalizePhone(p) { var c = p.replace(/[^0-9]/g, ''); if (c.startsWith('0') && c.length >= 11) c = '92' + c.substring(1); if (!c.startsWith('92')) c = '92' + c; return c; }
+function phoneToEmail(p) { return normalizePhone(p) + '@finvexa.pk'; }
+function formatPhone(p) { var c = normalizePhone(p); return '+92 ' + c.substring(2, 5) + ' ' + c.substring(5); }
+function formatNum(n) { return Number(n || 0).toLocaleString(); }
+function formatDate(ts) { if (!ts) return '-'; var d = new Date(ts); var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+function formatFullDate(ts) { if (!ts) return '-'; var d = new Date(ts); var months = ['January','February','March','April','May','June','July','August','September','October','November','December']; var h = d.getHours(); var m = String(d.getMinutes()).padStart(2, '0'); var ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12; if (h === 0) h = 12; return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' + h + ':' + m + ' ' + ampm; }
+function showErr(id, msg) { var el = document.getElementById(id); if (el) { el.textContent = msg; el.classList.add('show'); } }
+function clearErr(id) { var el = document.getElementById(id); if (el) { el.textContent = ''; el.classList.remove('show'); } }
+function clearAllErr() { document.querySelectorAll('.form-error').forEach(function(e) { e.textContent = ''; e.classList.remove('show'); }); }
+function getPkgInfo(name) { for (var i = 0; i < packageData.length; i++) { if (packageData[i].name === name) return packageData[i]; } return null; }
 
-function showToast(title,msg,type){
-    type=type||'success';var icons={success:'fa-check',error:'fa-times',info:'fa-info'};
-    var c=document.getElementById('toastContainer');var t=document.createElement('div');
-    t.className='toast '+type;
-    t.innerHTML='<div class="toast-icon"><i class="fas '+icons[type]+'"></i></div><div class="toast-body"><div class="toast-title">'+title+'</div><div class="toast-msg">'+msg+'</div></div><button class="toast-close" onclick="dismissToast(this)"><i class="fas fa-times"></i></button><div class="toast-progress"></div>';
-    c.appendChild(t);setTimeout(function(){dismissToast(t.querySelector('.toast-close'))},3500);
+function showToast(title, msg, type) {
+    type = type || 'success';
+    var icons = { success: 'fa-check', error: 'fa-times', info: 'fa-info' };
+    var c = document.getElementById('toastContainer');
+    var t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.innerHTML = '<div class="toast-icon"><i class="fas ' + icons[type] + '"></i></div><div class="toast-body"><div class="toast-title">' + title + '</div><div class="toast-msg">' + msg + '</div></div><button class="toast-close" onclick="dismissToast(this)"><i class="fas fa-times"></i></button><div class="toast-progress"></div>';
+    c.appendChild(t);
+    setTimeout(function() { dismissToast(t.querySelector('.toast-close')); }, 3500);
 }
-function dismissToast(btn){var t=btn.closest('.toast');if(!t||t.classList.contains('leaving'))return;t.classList.add('leaving');setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},350)}
+function dismissToast(btn) { var t = btn.closest('.toast'); if (!t || t.classList.contains('leaving')) return; t.classList.add('leaving'); setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 350); }
 
-function showPage(page){
+function showPage(page) {
     clearAllErr();
-    document.getElementById('loginPage').style.display=page==='login'?'block':'none';
-    document.getElementById('signupPage').style.display=page==='signup'?'block':'none';
-    document.getElementById('forgotPage').style.display=page==='forgot'?'block':'none';
+    document.getElementById('loginPage').style.display = page === 'login' ? 'block' : 'none';
+    document.getElementById('signupPage').style.display = page === 'signup' ? 'block' : 'none';
+    document.getElementById('forgotPage').style.display = page === 'forgot' ? 'block' : 'none';
 }
 
-function handleSignup(){
-    clearAllErr();var name=document.getElementById('signupName').value.trim();var phone=document.getElementById('signupPhone').value.trim();var pass=document.getElementById('signupPass').value;var confirm=document.getElementById('signupConfirm').value;var valid=true;
-    if(!name||name.length<3){showErr('signupNameErr','Username must be at least 3 characters');valid=false}
-    if(!phone||normalizePhone(phone).length<12){showErr('signupPhoneErr','Enter a valid Pakistani phone number');valid=false}
-    if(!pass||pass.length<6){showErr('signupPassErr','Password must be at least 6 characters');valid=false}
-    if(pass!==confirm){showErr('signupConfirmErr','Passwords do not match');valid=false}
-    if(!valid)return;
-    
-    var btn=document.getElementById('signupBtn');btn.classList.add('loading');var email=phoneToEmail(phone);
+function handleSignup() {
+    clearAllErr();
+    var name = document.getElementById('signupName').value.trim();
+    var phone = document.getElementById('signupPhone').value.trim();
+    var pass = document.getElementById('signupPass').value;
+    var confirm = document.getElementById('signupConfirm').value;
+    var valid = true;
+    if (!name || name.length < 3) { showErr('signupNameErr', 'Username must be at least 3 characters'); valid = false; }
+    if (!phone || normalizePhone(phone).length < 12) { showErr('signupPhoneErr', 'Enter a valid Pakistani phone number'); valid = false; }
+    if (!pass || pass.length < 6) { showErr('signupPassErr', 'Password must be at least 6 characters'); valid = false; }
+    if (pass !== confirm) { showErr('signupConfirmErr', 'Passwords do not match'); valid = false; }
+    if (!valid) return;
+
+    var btn = document.getElementById('signupBtn');
+    btn.classList.add('loading');
+    var email = phoneToEmail(phone);
     var refCode = localStorage.getItem('finvexaRefCode') || '';
     var refUid = null;
 
     var lookupPromise = Promise.resolve();
-    // If there's a referral code, find the referrer's UID first
-    if(refCode) {
-        lookupPromise = db.ref('usernames/'+refCode.toLowerCase()).once('value').then(function(snap){
-            if(snap.exists()) refUid = snap.val();
+    if (refCode) {
+        lookupPromise = db.ref('usernames/' + refCode.toLowerCase()).once('value').then(function(snap) {
+            if (snap.exists()) refUid = snap.val();
         });
     }
 
-    lookupPromise.then(function(){
-        return db.ref('usernames/'+name.toLowerCase()).once('value');
-    }).then(function(usernameSnap){
-        if(usernameSnap.exists()) {
+    lookupPromise.then(function() {
+        return db.ref('usernames/' + name.toLowerCase()).once('value');
+    }).then(function(usernameSnap) {
+        if (usernameSnap.exists()) {
             btn.classList.remove('loading');
             showErr('signupNameErr', 'This username is already taken');
             throw new Error('username_taken');
         }
-        return auth.createUserWithEmailAndPassword(email,pass);
-    }).then(function(cred){
+        return auth.createUserWithEmailAndPassword(email, pass);
+    }).then(function(cred) {
         var updates = {};
-        updates['users/'+cred.user.uid] = {
+        updates['users/' + cred.user.uid] = {
             username: name,
             phone: formatPhone(phone),
             phoneRaw: normalizePhone(phone),
@@ -800,531 +783,597 @@ function handleSignup(){
             referredBy: refCode.toLowerCase(),
             createdAt: Date.now()
         };
-        updates['usernames/'+name.toLowerCase()] = cred.user.uid;
+        updates['usernames/' + name.toLowerCase()] = cred.user.uid;
 
-        // Update Referrer Data if exists
-        if(refUid) {
-            updates['users/'+refUid+'/teamSize'] = firebase.database.ServerValue.increment(1);
-            updates['users/'+refUid+'/referrals/'+cred.user.uid] = true;
-            updates['users/'+refUid+'/referralDetails/'+cred.user.uid] = name;
+        if (refUid) {
+            updates['users/' + refUid + '/teamSize'] = firebase.database.ServerValue.increment(1);
+            updates['users/' + refUid + '/referrals/' + cred.user.uid] = true;
+            updates['users/' + refUid + '/referralDetails/' + cred.user.uid] = name;
         }
 
         return db.ref().update(updates);
-    }).then(function(){
+    }).then(function() {
         btn.classList.remove('loading');
         localStorage.removeItem('finvexaRefCode');
-        showToast('Welcome!','Account created successfully.','success');
-    }).catch(function(err){
-        if(err.message === 'username_taken') return;
-        btn.classList.remove('loading');var code=err.code||'';
-        if(code.indexOf('email-already')>-1)showErr('signupPhoneErr','This phone number is already registered');
-        else if(code.indexOf('weak-password')>-1)showErr('signupPassErr','Password is too weak');
-        else showToast('Error',err.message,'error');
+        showToast('Welcome!', 'Account created successfully.', 'success');
+    }).catch(function(err) {
+        if (err.message === 'username_taken') return;
+        btn.classList.remove('loading');
+        var code = err.code || '';
+        if (code.indexOf('email-already') > -1) showErr('signupPhoneErr', 'This phone number is already registered');
+        else if (code.indexOf('weak-password') > -1) showErr('signupPassErr', 'Password is too weak');
+        else showToast('Error', err.message, 'error');
     });
 }
 
-function handleLogin(){
-    clearAllErr();var phone=document.getElementById('loginPhone').value.trim();var pass=document.getElementById('loginPass').value;var valid=true;
-    if(!phone||normalizePhone(phone).length<12){showErr('loginPhoneErr','Enter a valid Pakistani phone number');valid=false}
-    if(!pass){showErr('loginPassErr','Enter your password');valid=false}
-    if(!valid)return;
-    var btn=document.getElementById('loginBtn');btn.classList.add('loading');var email=phoneToEmail(phone);
-    auth.signInWithEmailAndPassword(email,pass).then(function(){btn.classList.remove('loading');showToast('Welcome back!','Signed in successfully.','success')}).catch(function(err){
-        btn.classList.remove('loading');var code=err.code||'';
-        if(code.indexOf('invalid-credential')>-1||code.indexOf('wrong-password')>-1||code.indexOf('user-not-found')>-1)showErr('loginPassErr','Invalid phone number or password');
-        else if(code.indexOf('too-many')>-1)showToast('Blocked','Too many attempts. Try again later.','error');
-        else showToast('Error',err.message,'error');
+function handleLogin() {
+    clearAllErr();
+    var phone = document.getElementById('loginPhone').value.trim();
+    var pass = document.getElementById('loginPass').value;
+    var valid = true;
+    if (!phone || normalizePhone(phone).length < 12) { showErr('loginPhoneErr', 'Enter a valid Pakistani phone number'); valid = false; }
+    if (!pass) { showErr('loginPassErr', 'Enter your password'); valid = false; }
+    if (!valid) return;
+    var btn = document.getElementById('loginBtn');
+    btn.classList.add('loading');
+    var email = phoneToEmail(phone);
+    auth.signInWithEmailAndPassword(email, pass).then(function() {
+        btn.classList.remove('loading');
+        showToast('Welcome back!', 'Signed in successfully.', 'success');
+    }).catch(function(err) {
+        btn.classList.remove('loading');
+        var code = err.code || '';
+        if (code.indexOf('invalid-credential') > -1 || code.indexOf('wrong-password') > -1 || code.indexOf('user-not-found') > -1) showErr('loginPassErr', 'Invalid phone number or password');
+        else if (code.indexOf('too-many') > -1) showToast('Blocked', 'Too many attempts. Try again later.', 'error');
+        else showToast('Error', err.message, 'error');
     });
 }
 
-function generatePackageCards(){
-    var grid=document.getElementById('packagesGrid');grid.innerHTML='';
-    packageData.forEach(function(pkg,i){
-        var card=document.createElement('div');card.className='pkg-card animate-in d'+(Math.min(i+1,15));
-        card.innerHTML='<div class="pkg-badge">Best Value</div><div class="pkg-name">'+pkg.name+'</div><div class="pkg-duration">30 Days</div><div class="pkg-price">PKR '+formatNum(pkg.price)+'</div><div class="pkg-divider"></div><ul class="pkg-features"><li><i class="fas fa-check-circle"></i> Daily PKR '+formatNum(pkg.daily)+'</li><li><i class="fas fa-check-circle"></i> Total: PKR '+formatNum(pkg.total)+'</li><li><i class="fas fa-check-circle"></i> '+pkg.ret+' Return</li><li><i class="fas fa-check-circle"></i> '+pkg.support+'</li></ul><button class="pkg-btn" onclick="buyPkg(\''+pkg.name+'\')">Buy</button>';
+function generatePackageCards() {
+    var grid = document.getElementById('packagesGrid');
+    grid.innerHTML = '';
+    packageData.forEach(function(pkg, i) {
+        var card = document.createElement('div');
+        card.className = 'pkg-card animate-in d' + (Math.min(i + 1, 15));
+        card.innerHTML = '<div class="pkg-badge">Best Value</div><div class="pkg-name">' + pkg.name + '</div><div class="pkg-duration">30 Days</div><div class="pkg-price">PKR ' + formatNum(pkg.price) + '</div><div class="pkg-divider"></div><ul class="pkg-features"><li><i class="fas fa-check-circle"></i> Daily PKR ' + formatNum(pkg.daily) + '</li><li><i class="fas fa-check-circle"></i> Total: PKR ' + formatNum(pkg.total) + '</li><li><i class="fas fa-check-circle"></i> ' + pkg.ret + ' Return</li><li><i class="fas fa-check-circle"></i> ' + pkg.support + '</li></ul><button class="pkg-btn" onclick="buyPkg(\'' + pkg.name + '\')">Buy</button>';
         grid.appendChild(card);
     });
 }
 generatePackageCards();
 
-function generateWithdrawMethods(){
-    var grid=document.getElementById('withdrawMethodsGrid');grid.innerHTML='';
-    withdrawMethods.forEach(function(m,i){
-        var card=document.createElement('div');card.className='wmethod-card animate-in d'+(i+1);
-        card.style.borderColor='var(--border)';
-        card.setAttribute('data-method',m.id);
-        card.innerHTML='<div class="wmethod-icon" style="background:'+m.colorLight+'"><i class="'+m.icon+'" style="color:'+m.color+'"></i></div><div class="wmethod-name">'+m.name+'</div><div class="wmethod-arrow"><i class="fas fa-arrow-right"></i></div>';
-        card.addEventListener('mouseenter',function(){this.style.borderColor=m.color});
-        card.addEventListener('mouseleave',function(){this.style.borderColor='var(--border)'});
-        card.addEventListener('click',function(){selectWithdrawMethod(m.id)});
+function generateWithdrawMethods() {
+    var grid = document.getElementById('withdrawMethodsGrid');
+    grid.innerHTML = '';
+    withdrawMethods.forEach(function(m, i) {
+        var card = document.createElement('div');
+        card.className = 'wmethod-card animate-in d' + (i + 1);
+        card.style.borderColor = 'var(--border)';
+        card.setAttribute('data-method', m.id);
+        card.innerHTML = '<div class="wmethod-icon" style="background:' + m.colorLight + '"><i class="' + m.icon + '" style="color:' + m.color + '"></i></div><div class="wmethod-name">' + m.name + '</div><div class="wmethod-arrow"><i class="fas fa-arrow-right"></i></div>';
+        card.addEventListener('mouseenter', function() { this.style.borderColor = m.color; });
+        card.addEventListener('mouseleave', function() { this.style.borderColor = 'var(--border)'; });
+        card.addEventListener('click', function() { selectWithdrawMethod(m.id); });
         grid.appendChild(card);
     });
 }
 generateWithdrawMethods();
 
-auth.onAuthStateChanged(function(user){
-    var loading=document.getElementById('loadingScreen');
-    if(user){
-        currentUser=user;
-        document.getElementById('authWrapper').style.display='none';
-        document.getElementById('appWrapper').style.display='block';
+auth.onAuthStateChanged(function(user) {
+    var loading = document.getElementById('loadingScreen');
+    if (user) {
+        currentUser = user;
+        document.getElementById('authWrapper').style.display = 'none';
+        document.getElementById('appWrapper').style.display = 'block';
         setupListeners(user.uid);
-    }else{
-        currentUser=null;cleanupListeners();cachedDeposits=null;cachedWithdrawals=null;tasksData=null;
-        document.getElementById('authWrapper').style.display='flex';
-        document.getElementById('appWrapper').style.display='none';
-        
-        // Automatically show Signup Page if referral link is pending in localStorage
-        if (localStorage.getItem('finvexaRefCode')) {
-            showPage('signup');
-        } else {
-            showPage('login');
-        }
+    } else {
+        currentUser = null;
+        cleanupListeners();
+        cachedDeposits = null;
+        cachedWithdrawals = null;
+        tasksData = null;
+        document.getElementById('authWrapper').style.display = 'flex';
+        document.getElementById('appWrapper').style.display = 'none';
+        if (localStorage.getItem('finvexaRefCode')) { showPage('signup'); } else { showPage('login'); }
     }
-    loading.classList.add('hide');setTimeout(function(){loading.style.display='none'},500);
+    loading.classList.add('hide');
+    setTimeout(function() { loading.style.display = 'none'; }, 500);
 });
 
-var depCb=null,wdCb=null,taskCb=null,userCb=null,refCb=null;
+var depCb = null, wdCb = null, taskCb = null, userCb = null, refCb = null;
 
-function setupListeners(uid){
-    userCb=db.ref('users/'+uid).on('value',function(snap){
-        currentUserData=snap.val();
+function setupListeners(uid) {
+    userCb = db.ref('users/' + uid).on('value', function(snap) {
+        currentUserData = snap.val();
         updateUI();
     });
-    depCb=function(snap){
-        cachedDeposits=snap.val();
-        if(cachedDeposits){
-            Object.keys(cachedDeposits).forEach(function(depId){
-                var dep=cachedDeposits[depId];
-                if(dep.status==='success'&&!dep.processed){
-                    processApprovedDeposit(uid,depId,dep);
+    depCb = function(snap) {
+        cachedDeposits = snap.val();
+        if (cachedDeposits) {
+            Object.keys(cachedDeposits).forEach(function(depId) {
+                var dep = cachedDeposits[depId];
+                if (dep.status === 'success' && !dep.processed) {
+                    processApprovedDeposit(uid, depId, dep);
                 }
             });
         }
         renderAllTransactions();
     };
-    db.ref('deposits/'+uid).on('value',depCb);
-    wdCb=function(snap){
-        cachedWithdrawals=snap.val();
-        if(cachedWithdrawals){
-            Object.keys(cachedWithdrawals).forEach(function(wId){
-                var w=cachedWithdrawals[wId];
-                if(w.status==='rejected'&&!w.refunded){
-                    processRejectedWithdrawal(uid,wId,w);
+    db.ref('deposits/' + uid).on('value', depCb);
+    wdCb = function(snap) {
+        cachedWithdrawals = snap.val();
+        if (cachedWithdrawals) {
+            Object.keys(cachedWithdrawals).forEach(function(wId) {
+                var w = cachedWithdrawals[wId];
+                if (w.status === 'rejected' && !w.refunded) {
+                    processRejectedWithdrawal(uid, wId, w);
                 }
             });
         }
         renderAllTransactions();
     };
-    db.ref('withdrawals/'+uid).on('value',wdCb);
-    taskCb=function(snap){
-        tasksData=snap.val();
+    db.ref('withdrawals/' + uid).on('value', wdCb);
+    taskCb = function(snap) {
+        tasksData = snap.val();
         renderTasks(tasksData);
         updateUI();
     };
-    db.ref('tasks/'+uid).on('value',taskCb);
-    
-    // Listen for Referral Team Members
-    refCb=function(snap){
+    db.ref('tasks/' + uid).on('value', taskCb);
+    refCb = function(snap) {
         renderReferralTeam(snap.val());
     };
-    db.ref('users/'+uid+'/referralDetails').on('value',refCb);
+    db.ref('users/' + uid + '/referralDetails').on('value', refCb);
 }
 
-function cleanupListeners(){
-    if(currentUser){
-        if(userCb)db.ref('users/'+currentUser.uid).off('value',userCb);
-        if(depCb)db.ref('deposits/'+currentUser.uid).off('value',depCb);
-        if(wdCb)db.ref('withdrawals/'+currentUser.uid).off('value',wdCb);
-        if(taskCb)db.ref('tasks/'+currentUser.uid).off('value',taskCb);
-        if(refCb)db.ref('users/'+currentUser.uid+'/referralDetails').off('value',refCb);
+function cleanupListeners() {
+    if (currentUser) {
+        if (userCb) db.ref('users/' + currentUser.uid).off('value', userCb);
+        if (depCb) db.ref('deposits/' + currentUser.uid).off('value', depCb);
+        if (wdCb) db.ref('withdrawals/' + currentUser.uid).off('value', wdCb);
+        if (taskCb) db.ref('tasks/' + currentUser.uid).off('value', taskCb);
+        if (refCb) db.ref('users/' + currentUser.uid + '/referralDetails').off('value', refCb);
     }
-    userCb=null;depCb=null;wdCb=null;taskCb=null;refCb=null;
+    userCb = null; depCb = null; wdCb = null; taskCb = null; refCb = null;
 }
 
 function renderReferralTeam(data) {
     var listEl = document.getElementById('refTeamList');
-    if(!data) {
+    if (!data) {
         listEl.innerHTML = '<div class="empty-state" style="padding:20px"><i class="fas fa-users-slash"></i><h3>No Team Members Yet</h3><p>Share your link to start building your team!</p></div>';
         return;
     }
     var html = '<div class="contact-grid">';
     Object.keys(data).forEach(function(uid) {
         var uname = data[uid];
-        html += '<div class="contact-item">';
-        html += '<div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-user"></i></div>';
-        html += '<div style="flex:1;min-width:0"><div class="contact-detail-value">'+uname+'</div><div class="contact-detail-label">Team Member</div></div>';
-        html += '</div>';
+        html += '<div class="contact-item"><div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-user"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-value">' + uname + '</div><div class="contact-detail-label">Team Member</div></div></div>';
     });
     html += '</div>';
     listEl.innerHTML = html;
 }
 
-function updateUI(){
-    if(!currentUserData)return;
-    var n=currentUserData.username||'User';
-    document.getElementById('welcomeText').textContent='Welcome back, '+n;
-    document.getElementById('sidebarName').textContent=n;
-    document.getElementById('sidebarAvatar').textContent=n.charAt(0).toUpperCase();
-    var bal=formatNum(currentUserData.totalBalance);
-    var inv=formatNum(currentUserData.totalInvestment);
-    var ear=formatNum(currentUserData.totalEarnings);
-    
-    // Referral Link Setup
+function updateUI() {
+    if (!currentUserData) return;
+    var n = currentUserData.username || 'User';
+    document.getElementById('welcomeText').textContent = 'Welcome back, ' + n;
+    document.getElementById('sidebarName').textContent = n;
+    document.getElementById('sidebarAvatar').textContent = n.charAt(0).toUpperCase();
     var baseUrl = window.location.origin + window.location.pathname;
     var refLink = baseUrl + '?ref=' + n.toLowerCase();
     document.getElementById('refLinkText').textContent = refLink;
     document.getElementById('refTeamSize').textContent = currentUserData.teamSize || 0;
     document.getElementById('refTeamInvestment').textContent = formatNum(currentUserData.teamInvestment || 0);
     document.getElementById('refTeamEarnings').textContent = formatNum(currentUserData.teamEarnings || 0);
-    
-    var activePkgCount=0;
-    var now=Date.now();
-    if(tasksData){
-        Object.keys(tasksData).forEach(function(k){
-            var t=tasksData[k];
-            if(t.status==='active'&&(!t.expiresAt||now<t.expiresAt)&&t.totalClaimed<t.totalDays){
+    var activePkgCount = 0;
+    var now = Date.now();
+    if (tasksData) {
+        Object.keys(tasksData).forEach(function(k) {
+            var t = tasksData[k];
+            if (t.status === 'active' && (!t.expiresAt || now < t.expiresAt) && t.totalClaimed < t.totalDays) {
                 activePkgCount++;
             }
         });
     }
-    document.getElementById('dashBalance').textContent=bal;
-    document.getElementById('dashInvestment').textContent=inv;
-    document.getElementById('dashEarnings').textContent=ear;
-    document.getElementById('dashPackages').textContent=activePkgCount;
-    document.getElementById('walletBalance').textContent=bal;
-    document.getElementById('wsmAvailable').textContent='PKR '+bal;
-    document.getElementById('profileAvatar').textContent=n.charAt(0).toUpperCase();
-    document.getElementById('profileName').textContent=n;
-    document.getElementById('profileUsername').textContent=n;
-    document.getElementById('profilePhone').textContent=currentUserData.phone||'-';
-    document.getElementById('profileJoined').textContent=currentUserData.createdAt?formatFullDate(currentUserData.createdAt):'-';
+    document.getElementById('dashBalance').textContent = formatNum(currentUserData.totalBalance);
+    document.getElementById('dashInvestment').textContent = formatNum(currentUserData.totalInvestment);
+    document.getElementById('dashEarnings').textContent = formatNum(currentUserData.totalEarnings);
+    document.getElementById('dashPackages').textContent = activePkgCount;
+    document.getElementById('walletBalance').textContent = formatNum(currentUserData.totalBalance);
+    document.getElementById('wsmAvailable').textContent = 'PKR ' + formatNum(currentUserData.totalBalance);
+    document.getElementById('profileAvatar').textContent = n.charAt(0).toUpperCase();
+    document.getElementById('profileName').textContent = n;
+    document.getElementById('profileUsername').textContent = n;
+    document.getElementById('profilePhone').textContent = currentUserData.phone || '-';
+    document.getElementById('profileJoined').textContent = currentUserData.createdAt ? formatFullDate(currentUserData.createdAt) : '-';
 }
 
-function processApprovedDeposit(uid, depId, dep){
-    var pkgInfo=getPkgInfo(dep.planName);
-    if(!pkgInfo){db.ref('deposits/'+uid+'/'+depId+'/processed').set(true);return}
-    
-    db.ref('tasks/'+uid+'/'+depId).once('value',function(taskSnap){
-        var updates={};
-        updates['deposits/'+uid+'/'+depId+'/processed']=true;
-        
-        if(!taskSnap.exists()){
-            var now=Date.now();
-            updates['tasks/'+uid+'/'+depId]={
-                planName:dep.planName,
-                planPrice:dep.planPrice,
-                dailyEarning:pkgInfo.daily,
-                lastClaim:0,
-                totalClaimed:0,
-                totalDays:30,
-                status:'active',
-                createdAt:now,
-                expiresAt:now+30*24*60*60*1000
-            };
-            
-            var userUpdates = {};
-            userUpdates['users/'+uid+'/activePackages'] = firebase.database.ServerValue.increment(1);
-            userUpdates['users/'+uid+'/totalInvestment'] = firebase.database.ServerValue.increment(dep.planPrice);
-            
-            db.ref().update(updates).then(function(){
-                db.ref().update(userUpdates).then(function(){
-                    showToast('Package Activated!',dep.planName+' is now active for 30 days. Claim daily earnings!','success');
-                    
-                    // Give 15% commission to the referrer
-                    db.ref('users/'+uid+'/referredBy').once('value', function(refSnap) {
-                        var referredBy = refSnap.val();
-                        if(referredBy) {
-                            db.ref('usernames/'+referredBy).once('value', function(uidSnap) {
-                                var refUid = uidSnap.val();
-                                if(refUid) {
-                                    var commission = dep.planPrice * 0.15;
-                                    var refUpdates = {};
-                                    refUpdates['users/'+refUid+'/totalBalance'] = firebase.database.ServerValue.increment(commission);
-                                    refUpdates['users/'+refUid+'/totalEarnings'] = firebase.database.ServerValue.increment(commission);
-                                    refUpdates['users/'+refUid+'/teamInvestment'] = firebase.database.ServerValue.increment(dep.planPrice);
-                                    refUpdates['users/'+refUid+'/teamEarnings'] = firebase.database.ServerValue.increment(commission);
-                                    
-                                    db.ref().update(refUpdates);
-                                }
-                            });
-                        }
-                    });
-                    
-                });
-            }).catch(function(err){console.error('Process deposit error:',err)});
-        } else {
-            db.ref().update(updates);
-        }
-    });
-}
-
-function processRejectedWithdrawal(uid,wId,w){
-    db.ref('users/'+uid+'/totalBalance').once('value',function(snap){
-        var curBal=snap.val()||0;
-        var updates={};
-        updates['withdrawals/'+uid+'/'+wId+'/refunded']=true;
-        updates['users/'+uid+'/totalBalance']=curBal+w.amount;
-        db.ref().update(updates).then(function(){
-            showToast('Refunded','PKR '+formatNum(w.amount)+' has been refunded to your balance.','info');
-        }).catch(function(err){console.error('Refund error:',err)});
-    });
-}
-
-function renderAllTransactions(){
-    var list=document.getElementById('txList');
-    var items=[];
-    if(cachedDeposits){Object.keys(cachedDeposits).forEach(function(depId){var d=cachedDeposits[depId];items.push({type:'deposit',id:depId,data:d,ts:d.createdAt||0})})}
-    if(cachedWithdrawals){Object.keys(cachedWithdrawals).forEach(function(wId){var w=cachedWithdrawals[wId];items.push({type:'withdrawal',id:wId,data:w,ts:w.createdAt||0})})}
-    if(currentTxFilter==='deposit')items=items.filter(function(i){return i.type==='deposit'});
-    if(currentTxFilter==='withdrawal')items=items.filter(function(i){return i.type==='withdrawal'});
-    items.sort(function(a,b){return b.ts-a.ts});
-    if(items.length===0){
-        var msg=currentTxFilter==='all'?'Your transactions will appear here.':currentTxFilter==='deposit'?'No deposit requests yet.':'No withdrawal requests yet.';
-        list.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><h3>No Transactions</h3><p>'+msg+'</p></div>';return;
+function processApprovedDeposit(uid, depId, dep) {
+    var pkgInfo = getPkgInfo(dep.planName);
+    if (!pkgInfo) {
+        db.ref('deposits/' + uid + '/' + depId + '/processed').set(true);
+        return;
     }
-    var html='';
-    items.forEach(function(item){
-        if(item.type==='deposit'){
-            var d=item.data;var isP=d.status==='pending';var isS=d.status==='success';var isR=d.status==='rejected';
-            var statusClass=isP?'pending':isS?'success':'rejected';
-            var statusIcon=isP?'fa-spinner fa-spin':isS?'fa-check':'fa-times';
-            var statusText=isP?'Pending':isS?'Success':'Rejected';
-            html+='<div class="tx-card"><div class="tx-icon-wrap '+statusClass+'"><i class="fas '+statusIcon+'"></i></div><div class="tx-info"><div class="tx-plan">'+d.planName+' Package <span style="font-size:11px;color:var(--text-muted);font-weight:500">(Deposit)</span></div><div class="tx-id">TxID: <span>'+(d.transactionId||'-')+'</span></div><div class="tx-date">'+formatDate(d.createdAt)+'</div></div>'+(d.screenshot?'<button class="tx-screenshot-btn" onclick="viewScreenshot(\''+item.id+'\')" title="View Screenshot"><i class="fas fa-image"></i></button>':'')+'<div class="tx-right"><div class="tx-amount">PKR '+formatNum(d.planPrice)+'</div><div class="tx-status '+statusClass+'"><i class="fas '+statusIcon+'"></i> '+statusText+'</div></div></div>';
-        }else{
-            var w=item.data;var wIsP=w.status==='pending';var wIsS=w.status==='success';var wIsR=w.status==='rejected';
-            var wStatusClass=wIsP?'pending':wIsS?'success':'rejected';
-            var wStatusIcon=wIsP?'fa-spinner fa-spin':wIsS?'fa-check':'fa-times';
-            var wStatusText=wIsP?'Pending':wIsS?'Success':'Rejected';
-            var methodLabel=(w.methodName||w.method||'wallet');
-            html+='<div class="tx-card"><div class="tx-icon-wrap withdraw"><i class="fas fa-arrow-up"></i></div><div class="tx-info"><div class="tx-plan">Withdrawal <span style="font-size:11px;color:var(--text-muted);font-weight:500">('+methodLabel+')</span></div><div class="tx-id">Acc: <span>'+w.accountNumber+'</span></div><div class="tx-date">'+formatDate(w.createdAt)+'</div></div><div class="tx-right"><div class="tx-amount negative">- PKR '+formatNum(w.amount)+'</div><div class="tx-status '+wStatusClass+'"><i class="fas '+wStatusIcon+'"></i> '+wStatusText+'</div></div></div>';
-        }
+
+    var price = Number(dep.planPrice);
+
+    db.ref('deposits/' + uid + '/' + depId + '/processed').set(true).then(function() {
+        return db.ref('tasks/' + uid + '/' + depId).once('value');
+    }).then(function(taskSnap) {
+        if (taskSnap.exists()) return null;
+
+        var now = Date.now();
+        var updates = {};
+
+        updates['tasks/' + uid + '/' + depId] = {
+            planName: dep.planName,
+            planPrice: price,
+            dailyEarning: pkgInfo.daily,
+            lastClaim: 0,
+            totalClaimed: 0,
+            totalDays: 30,
+            status: 'active',
+            createdAt: now,
+            expiresAt: now + 30 * 24 * 60 * 60 * 1000
+        };
+
+        updates['users/' + uid + '/activePackages'] = firebase.database.ServerValue.increment(1);
+        updates['users/' + uid + '/totalInvestment'] = firebase.database.ServerValue.increment(price);
+
+        return db.ref('users/' + uid + '/referredBy').once('value').then(function(refSnap) {
+            var referredBy = refSnap.val();
+            if (referredBy) {
+                return db.ref('usernames/' + referredBy).once('value').then(function(uidSnap) {
+                    if (uidSnap.exists()) return uidSnap.val();
+                    return null;
+                });
+            }
+            return null;
+        }).then(function(refUid) {
+            if (refUid) {
+                var commission = Math.round(price * 0.15);
+                if (commission > 0) {
+                    updates['users/' + refUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + refUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + refUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
+                    updates['users/' + refUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
+                }
+            }
+            return db.ref().update(updates);
+        });
+    }).then(function() {
+        showToast('Package Activated!', dep.planName + ' is now active for 30 days. Claim daily earnings!', 'success');
+    }).catch(function(err) {
+        console.error('Process deposit error:', err);
     });
-    list.innerHTML=html;
 }
 
-function filterTx(filter,btn){
-    currentTxFilter=filter;
-    document.querySelectorAll('.tx-tab').forEach(function(t){t.classList.remove('active')});
-    if(btn)btn.classList.add('active');
+function processRejectedWithdrawal(uid, wId, w) {
+    db.ref('users/' + uid + '/totalBalance').once('value', function(snap) {
+        var curBal = snap.val() || 0;
+        var updates = {};
+        updates['withdrawals/' + uid + '/' + wId + '/refunded'] = true;
+        updates['users/' + uid + '/totalBalance'] = curBal + Number(w.amount);
+        db.ref().update(updates).then(function() {
+            showToast('Refunded', 'PKR ' + formatNum(w.amount) + ' has been refunded to your balance.', 'info');
+        }).catch(function(err) { console.error('Refund error:', err); });
+    });
+}
+
+function renderAllTransactions() {
+    var list = document.getElementById('txList');
+    var items = [];
+    if (cachedDeposits) { Object.keys(cachedDeposits).forEach(function(depId) { var d = cachedDeposits[depId]; items.push({ type: 'deposit', id: depId, data: d, ts: d.createdAt || 0 }); }); }
+    if (cachedWithdrawals) { Object.keys(cachedWithdrawals).forEach(function(wId) { var w = cachedWithdrawals[wId]; items.push({ type: 'withdrawal', id: wId, data: w, ts: w.createdAt || 0 }); }); }
+    if (currentTxFilter === 'deposit') items = items.filter(function(i) { return i.type === 'deposit'; });
+    if (currentTxFilter === 'withdrawal') items = items.filter(function(i) { return i.type === 'withdrawal'; });
+    items.sort(function(a, b) { return b.ts - a.ts; });
+    if (items.length === 0) {
+        var msg = currentTxFilter === 'all' ? 'Your transactions will appear here.' : currentTxFilter === 'deposit' ? 'No deposit requests yet.' : 'No withdrawal requests yet.';
+        list.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h3>No Transactions</h3><p>' + msg + '</p></div>';
+        return;
+    }
+    var html = '';
+    items.forEach(function(item) {
+        if (item.type === 'deposit') {
+            var d = item.data;
+            var isP = d.status === 'pending', isS = d.status === 'success', isR = d.status === 'rejected';
+            var statusClass = isP ? 'pending' : isS ? 'success' : 'rejected';
+            var statusIcon = isP ? 'fa-spinner fa-spin' : isS ? 'fa-check' : 'fa-times';
+            var statusText = isP ? 'Pending' : isS ? 'Success' : 'Rejected';
+            html += '<div class="tx-card"><div class="tx-icon-wrap ' + statusClass + '"><i class="fas ' + statusIcon + '"></i></div><div class="tx-info"><div class="tx-plan">' + d.planName + ' Package <span style="font-size:11px;color:var(--text-muted);font-weight:500">(Deposit)</span></div><div class="tx-id">TxID: <span>' + (d.transactionId || '-') + '</span></div><div class="tx-date">' + formatDate(d.createdAt) + '</div></div>' + (d.screenshot ? '<button class="tx-screenshot-btn" onclick="viewScreenshot(\'' + item.id + '\')" title="View Screenshot"><i class="fas fa-image"></i></button>' : '') + '<div class="tx-right"><div class="tx-amount">PKR ' + formatNum(d.planPrice) + '</div><div class="tx-status ' + statusClass + '"><i class="fas ' + statusIcon + '"></i> ' + statusText + '</div></div></div>';
+        } else {
+            var w = item.data;
+            var wIsP = w.status === 'pending', wIsS = w.status === 'success', wIsR = w.status === 'rejected';
+            var wStatusClass = wIsP ? 'pending' : wIsS ? 'success' : 'rejected';
+            var wStatusIcon = wIsP ? 'fa-spinner fa-spin' : wIsS ? 'fa-check' : 'fa-times';
+            var wStatusText = wIsP ? 'Pending' : wIsS ? 'Success' : 'Rejected';
+            var methodLabel = (w.methodName || w.method || 'wallet');
+            html += '<div class="tx-card"><div class="tx-icon-wrap withdraw"><i class="fas fa-arrow-up"></i></div><div class="tx-info"><div class="tx-plan">Withdrawal <span style="font-size:11px;color:var(--text-muted);font-weight:500">(' + methodLabel + ')</span></div><div class="tx-id">Acc: <span>' + w.accountNumber + '</span></div><div class="tx-date">' + formatDate(w.createdAt) + '</div></div><div class="tx-right"><div class="tx-amount negative">- PKR ' + formatNum(w.amount) + '</div><div class="tx-status ' + wStatusClass + '"><i class="fas ' + wStatusIcon + '"></i> ' + wStatusText + '</div></div></div>';
+        }
+    });
+    list.innerHTML = html;
+}
+
+function filterTx(filter, btn) {
+    currentTxFilter = filter;
+    document.querySelectorAll('.tx-tab').forEach(function(t) { t.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
     renderAllTransactions();
 }
 
-function viewScreenshot(depId){
-    if(!currentUser)return;
-    db.ref('deposits/'+currentUser.uid+'/'+depId+'/screenshot').once('value',function(snap){
-        var url=snap.val();
-        if(url){document.getElementById('modalImg').src=url;document.getElementById('screenshotModal').classList.add('active')}
-        else{showToast('Not Found','No screenshot available.','error')}
+function viewScreenshot(depId) {
+    if (!currentUser) return;
+    db.ref('deposits/' + currentUser.uid + '/' + depId + '/screenshot').once('value', function(snap) {
+        var url = snap.val();
+        if (url) { document.getElementById('modalImg').src = url; document.getElementById('screenshotModal').classList.add('active'); }
+        else { showToast('Not Found', 'No screenshot available.', 'error'); }
     });
 }
-function closeModal(){document.getElementById('screenshotModal').classList.remove('active')}
-document.getElementById('screenshotModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+function closeModal() { document.getElementById('screenshotModal').classList.remove('active'); }
+document.getElementById('screenshotModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
-function renderTasks(data){
-    var grid=document.getElementById('taskGrid');
-    if(!data){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>';return}
-    var now=Date.now();
-    var visibleKeys=Object.keys(data).filter(function(k){
-        var t=data[k];
-        if(t.totalClaimed>=t.totalDays)return false;
-        if(t.expiresAt&&now>=t.expiresAt)return false;
+function renderTasks(data) {
+    var grid = document.getElementById('taskGrid');
+    if (!data) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>'; return; }
+    var now = Date.now();
+    var visibleKeys = Object.keys(data).filter(function(k) {
+        var t = data[k];
+        if (t.totalClaimed >= t.totalDays) return false;
+        if (t.expiresAt && now >= t.expiresAt) return false;
         return true;
     });
-    if(visibleKeys.length===0){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>';return}
-    var html='';
-    visibleKeys.forEach(function(k){
-        var t=data[k];
-        var elapsed=now-(t.lastClaim||0);var canClaim=elapsed>=86400000;
-        var remaining=Math.max(0,86400000-elapsed);
-        var progress=Math.min(100,(t.totalClaimed/t.totalDays)*100);
-        var hours=Math.floor(remaining/3600000);var mins=Math.floor((remaining%3600000)/60000);
-        html+='<div class="task-card"><div class="task-card-header"><div class="task-plan"><i class="fas fa-box-open"></i> '+t.planName+'</div><span class="task-badge active">Active</span></div><div class="task-card-body"><div class="task-stats"><div class="task-stat"><div class="task-stat-label">Daily Earning</div><div class="task-stat-value">PKR '+formatNum(t.dailyEarning)+'</div></div><div class="task-stat"><div class="task-stat-label">Days Claimed</div><div class="task-stat-value">'+t.totalClaimed+' / '+t.totalDays+'</div></div></div><div class="task-progress-wrap"><div class="task-progress-label"><span>Progress</span><span>'+Math.round(progress)+'%</span></div><div class="task-progress-bar"><div class="task-progress-fill" style="width:'+progress+'%"></div></div></div>';
-        if(canClaim){html+='<button class="task-claim-btn available" onclick="claimEarning(\''+k+'\')"><i class="fas fa-coins"></i> Claim PKR '+formatNum(t.dailyEarning)+'</button>';}
-        else{html+='<button class="task-claim-btn cooldown"><i class="fas fa-hourglass-half"></i> <span class="task-timer">Next claim in '+hours+'h '+mins+'m</span></button>';}
-        html+='</div></div>';
+    if (visibleKeys.length === 0) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>'; return; }
+    var html = '';
+    visibleKeys.forEach(function(k) {
+        var t = data[k];
+        var elapsed = now - (t.lastClaim || 0);
+        var canClaim = elapsed >= 86400000;
+        var remaining = Math.max(0, 86400000 - elapsed);
+        var progress = Math.min(100, (t.totalClaimed / t.totalDays) * 100);
+        var hours = Math.floor(remaining / 3600000);
+        var mins = Math.floor((remaining % 3600000) / 60000);
+        html += '<div class="task-card"><div class="task-card-header"><div class="task-plan"><i class="fas fa-box-open"></i> ' + t.planName + '</div><span class="task-badge active">Active</span></div><div class="task-card-body"><div class="task-stats"><div class="task-stat"><div class="task-stat-label">Daily Earning</div><div class="task-stat-value">PKR ' + formatNum(t.dailyEarning) + '</div></div><div class="task-stat"><div class="task-stat-label">Days Claimed</div><div class="task-stat-value">' + t.totalClaimed + ' / ' + t.totalDays + '</div></div></div><div class="task-progress-wrap"><div class="task-progress-label"><span>Progress</span><span>' + Math.round(progress) + '%</span></div><div class="task-progress-bar"><div class="task-progress-fill" style="width:' + progress + '%"></div></div></div>';
+        if (canClaim) { html += '<button class="task-claim-btn available" onclick="claimEarning(\'' + k + '\')"><i class="fas fa-coins"></i> Claim PKR ' + formatNum(t.dailyEarning) + '</button>'; }
+        else { html += '<button class="task-claim-btn cooldown"><i class="fas fa-hourglass-half"></i> <span class="task-timer">Next claim in ' + hours + 'h ' + mins + 'm</span></button>'; }
+        html += '</div></div>';
     });
-    grid.innerHTML=html;
+    grid.innerHTML = html;
 }
 
-function claimEarning(taskId){
-    if(!currentUser)return;var uid=currentUser.uid;
-    db.ref('tasks/'+uid+'/'+taskId).once('value',function(snap){
-        var task=snap.val();if(!task)return;
-        var now=Date.now();var elapsed=now-(task.lastClaim||0);
-        if(elapsed<86400000){showToast('Wait','You can only claim once every 24 hours.','error');return}
-        if(task.totalClaimed>=task.totalDays){showToast('Done','This package is already completed.','info');return}
-        if(task.expiresAt&&now>=task.expiresAt){showToast('Expired','This package has expired. Buy a new one to continue earning.','info');return}
-        db.ref('users/'+uid+'/totalBalance').once('value',function(bSnap){
-            db.ref('users/'+uid+'/totalEarnings').once('value',function(eSnap){
-                var curBal=bSnap.val()||0;var curEarn=eSnap.val()||0;
-                var updates={};
-                updates['tasks/'+uid+'/'+taskId+'/lastClaim']=now;
-                updates['tasks/'+uid+'/'+taskId+'/totalClaimed']=task.totalClaimed+1;
-                if(task.totalClaimed+1>=task.totalDays)updates['tasks/'+uid+'/'+taskId+'/status']='completed';
-                updates['users/'+uid+'/totalBalance']=curBal+task.dailyEarning;
-                updates['users/'+uid+'/totalEarnings']=curEarn+task.dailyEarning;
-                db.ref().update(updates).then(function(){
-                    showToast('Claimed!','PKR '+formatNum(task.dailyEarning)+' added to your balance.','success');
-                }).catch(function(){showToast('Error','Could not claim. Try again.','error')});
+function claimEarning(taskId) {
+    if (!currentUser) return;
+    var uid = currentUser.uid;
+    db.ref('tasks/' + uid + '/' + taskId).once('value', function(snap) {
+        var task = snap.val();
+        if (!task) return;
+        var now = Date.now();
+        var elapsed = now - (task.lastClaim || 0);
+        if (elapsed < 86400000) { showToast('Wait', 'You can only claim once every 24 hours.', 'error'); return; }
+        if (task.totalClaimed >= task.totalDays) { showToast('Done', 'This package is already completed.', 'info'); return; }
+        if (task.expiresAt && now >= task.expiresAt) { showToast('Expired', 'This package has expired.', 'info'); return; }
+        db.ref('users/' + uid + '/totalBalance').once('value', function(bSnap) {
+            db.ref('users/' + uid + '/totalEarnings').once('value', function(eSnap) {
+                var curBal = bSnap.val() || 0;
+                var curEarn = eSnap.val() || 0;
+                var updates = {};
+                updates['tasks/' + uid + '/' + taskId + '/lastClaim'] = now;
+                updates['tasks/' + uid + '/' + taskId + '/totalClaimed'] = task.totalClaimed + 1;
+                if (task.totalClaimed + 1 >= task.totalDays) updates['tasks/' + uid + '/' + taskId + '/status'] = 'completed';
+                updates['users/' + uid + '/totalBalance'] = curBal + task.dailyEarning;
+                updates['users/' + uid + '/totalEarnings'] = curEarn + task.dailyEarning;
+                db.ref().update(updates).then(function() {
+                    showToast('Claimed!', 'PKR ' + formatNum(task.dailyEarning) + ' added to your balance.', 'success');
+                }).catch(function() { showToast('Error', 'Could not claim. Try again.', 'error'); });
             });
         });
     });
 }
 
-document.getElementById('logoutBtn').addEventListener('click',function(e){
-    e.preventDefault();auth.signOut().then(function(){showToast('Logged Out','Signed out.','info')}).catch(function(){});
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    auth.signOut().then(function() { showToast('Logged Out', 'Signed out.', 'info'); }).catch(function() {});
 });
 
-var hamburger=document.getElementById('hamburger'),sidebar=document.getElementById('sidebar'),overlay=document.getElementById('sidebarOverlay');
-function openSidebar(){sidebar.classList.add('open');overlay.classList.add('active');hamburger.classList.add('active');document.body.style.overflow='hidden'}
-function closeSidebar(){sidebar.classList.remove('open');overlay.classList.remove('active');hamburger.classList.remove('active');document.body.style.overflow=''}
-hamburger.addEventListener('click',function(){sidebar.classList.contains('open')?closeSidebar():openSidebar()});
-overlay.addEventListener('click',closeSidebar);
+var hamburger = document.getElementById('hamburger'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
+function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('active'); hamburger.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('active'); document.body.style.overflow = ''; }
+hamburger.addEventListener('click', function() { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+overlay.addEventListener('click', closeSidebar);
 
-function navigateTo(page){
-    document.querySelectorAll('.page-view').forEach(function(p){p.classList.remove('active')});
-    var target=document.getElementById('page-'+page);
-    if(target){target.classList.add('active');target.querySelectorAll('.animate-in').forEach(function(el){el.style.animation='none';el.offsetHeight;el.style.animation=''})}
-    document.querySelectorAll('.nav-item[data-page]').forEach(function(n){n.classList.remove('active')});
-    var navItem=document.querySelector('.nav-item[data-page="'+page+'"]');
-    if(navItem)navItem.classList.add('active');
-    var titles={dashboard:'Dashboard',packages:'Packages','buy-method':'Buy Package','buy-payment':'Complete Payment',transactions:'Transactions',tasks:'Tasks',wallet:'Wallet','withdraw-method':'Withdraw Method','withdraw-form':'Withdraw Funds',referral:'Referral Program',support:'Support',profile:'Profile'};
-    document.getElementById('topbarTitle').textContent=titles[page]||'Finvexa';
-    if(window.innerWidth<=768)closeSidebar();
-    window.scrollTo(0,0);
+function navigateTo(page) {
+    document.querySelectorAll('.page-view').forEach(function(p) { p.classList.remove('active'); });
+    var target = document.getElementById('page-' + page);
+    if (target) { target.classList.add('active'); target.querySelectorAll('.animate-in').forEach(function(el) { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; }); }
+    document.querySelectorAll('.nav-item[data-page]').forEach(function(n) { n.classList.remove('active'); });
+    var navItem = document.querySelector('.nav-item[data-page="' + page + '"]');
+    if (navItem) navItem.classList.add('active');
+    var titles = { dashboard: 'Dashboard', packages: 'Packages', 'buy-method': 'Buy Package', 'buy-payment': 'Complete Payment', transactions: 'Transactions', tasks: 'Tasks', wallet: 'Wallet', 'withdraw-method': 'Withdraw Method', 'withdraw-form': 'Withdraw Funds', referral: 'Referral Program', support: 'Support', profile: 'Profile' };
+    document.getElementById('topbarTitle').textContent = titles[page] || 'Finvexa';
+    if (window.innerWidth <= 768) closeSidebar();
+    window.scrollTo(0, 0);
 }
-document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
-    item.addEventListener('click',function(e){e.preventDefault();navigateTo(this.getAttribute('data-page'))});
+document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+    item.addEventListener('click', function(e) { e.preventDefault(); navigateTo(this.getAttribute('data-page')); });
 });
 
-function buyPkg(name){
-    selectedPkg=getPkgInfo(name);if(!selectedPkg){showToast('Error','Package not found.','error');return}
-    document.getElementById('buyMethodPlanName').textContent=name+' Package';
-    document.getElementById('buyMethodPlanPrice').textContent='PKR '+formatNum(selectedPkg.price);
-    document.getElementById('buyPayPlanName').textContent=name+' Package';
-    document.getElementById('buyPayPlanPrice').textContent='PKR '+formatNum(selectedPkg.price);
-    document.getElementById('payTxId').value='';screenshotBase64=null;resetUploadArea();clearAllErr();
+function buyPkg(name) {
+    selectedPkg = getPkgInfo(name);
+    if (!selectedPkg) { showToast('Error', 'Package not found.', 'error'); return; }
+    document.getElementById('buyMethodPlanName').textContent = name + ' Package';
+    document.getElementById('buyMethodPlanPrice').textContent = 'PKR ' + formatNum(selectedPkg.price);
+    document.getElementById('buyPayPlanName').textContent = name + ' Package';
+    document.getElementById('buyPayPlanPrice').textContent = 'PKR ' + formatNum(selectedPkg.price);
+    document.getElementById('payTxId').value = '';
+    screenshotBase64 = null;
+    resetUploadArea();
+    clearAllErr();
     navigateTo('buy-method');
 }
 
-function initScreenshotUpload(){
-    var si=document.getElementById('screenshotInput');if(!si)return;
-    si.addEventListener('change',function(e){
-        var file=e.target.files[0];if(!file)return;
-        if(!file.type.startsWith('image/')){showErr('payScreenshotErr','Please select an image file.');si.value='';return}
-        if(file.size>5*1024*1024){showErr('payScreenshotErr','Image must be under 5MB.');si.value='';return}
+function initScreenshotUpload() {
+    var si = document.getElementById('screenshotInput');
+    if (!si) return;
+    si.addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) { showErr('payScreenshotErr', 'Please select an image file.'); si.value = ''; return; }
+        if (file.size > 5 * 1024 * 1024) { showErr('payScreenshotErr', 'Image must be under 5MB.'); si.value = ''; return; }
         clearErr('payScreenshotErr');
-        compressImage(file,function(base64){
-            screenshotBase64=base64;
-            var ua=document.getElementById('uploadArea');ua.classList.add('has-file');
-            ua.innerHTML='<img src="'+base64+'" class="upload-preview"><button type="button" class="upload-remove" onclick="removeScreenshot(event)"><i class="fas fa-times"></i></button><input type="file" id="screenshotInput" accept="image/*">';
+        compressImage(file, function(base64) {
+            screenshotBase64 = base64;
+            var ua = document.getElementById('uploadArea');
+            ua.classList.add('has-file');
+            ua.innerHTML = '<img src="' + base64 + '" class="upload-preview"><button type="button" class="upload-remove" onclick="removeScreenshot(event)"><i class="fas fa-times"></i></button><input type="file" id="screenshotInput" accept="image/*">';
             initScreenshotUpload();
         });
     });
 }
 initScreenshotUpload();
 
-function compressImage(file,callback){
-    var reader=new FileReader();
-    reader.onload=function(e){var img=new Image();img.onload=function(){var canvas=document.createElement('canvas');var maxW=1200,maxH=1200;var w=img.width,h=img.height;if(w>maxW){h=h*maxW/w;w=maxW}if(h>maxH){w=w*maxH/h;h=maxH}canvas.width=w;canvas.height=h;var ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);callback(canvas.toDataURL('image/jpeg',0.8))};img.src=e.target.result};
+function compressImage(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var maxW = 1200, maxH = 1200;
+            var w = img.width, h = img.height;
+            if (w > maxW) { h = h * maxW / w; w = maxW; }
+            if (h > maxH) { w = w * maxH / h; h = maxH; }
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            callback(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = e.target.result;
+    };
     reader.readAsDataURL(file);
 }
-function removeScreenshot(e){e.stopPropagation();e.preventDefault();screenshotBase64=null;resetUploadArea()}
-function resetUploadArea(){
-    var ua=document.getElementById('uploadArea');ua.classList.remove('has-file');
-    ua.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Drag & drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*">';
+function removeScreenshot(e) { e.stopPropagation(); e.preventDefault(); screenshotBase64 = null; resetUploadArea(); }
+function resetUploadArea() {
+    var ua = document.getElementById('uploadArea');
+    ua.classList.remove('has-file');
+    ua.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><p>Drag and drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*">';
     initScreenshotUpload();
 }
 
-function submitDeposit(){
-    clearErr('payTxIdErr');clearErr('payScreenshotErr');
-    var txId=document.getElementById('payTxId').value.trim();var valid=true;
-    if(!txId||txId.length<4){showErr('payTxIdErr','Enter a valid Transaction ID');valid=false}
-    if(!screenshotBase64){showErr('payScreenshotErr','Please upload payment screenshot');valid=false}
-    if(!valid)return;
-    if(!currentUser||!selectedPkg){showToast('Error','Session expired.','error');return}
-    var btn=document.getElementById('confirmPayBtn');btn.classList.add('loading');btn.disabled=true;
-    var username=currentUserData?(currentUserData.username||'User'):'User';
-    db.ref('deposits/'+currentUser.uid).push({
-        username:username,
-        planName:selectedPkg.name,
-        planPrice:selectedPkg.price,
-        transactionId:txId,
-        screenshot:screenshotBase64,
-        status:'pending',
-        processed:false,
-        createdAt:Date.now()
-    }).then(function(){
-        btn.classList.remove('loading');btn.disabled=false;
-        showToast('Submitted!','Deposit request sent for verification.','success');
+function submitDeposit() {
+    clearErr('payTxIdErr');
+    clearErr('payScreenshotErr');
+    var txId = document.getElementById('payTxId').value.trim();
+    var valid = true;
+    if (!txId || txId.length < 4) { showErr('payTxIdErr', 'Enter a valid Transaction ID'); valid = false; }
+    if (!screenshotBase64) { showErr('payScreenshotErr', 'Please upload payment screenshot'); valid = false; }
+    if (!valid) return;
+    if (!currentUser || !selectedPkg) { showToast('Error', 'Session expired.', 'error'); return; }
+    var btn = document.getElementById('confirmPayBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    var username = currentUserData ? (currentUserData.username || 'User') : 'User';
+    db.ref('deposits/' + currentUser.uid).push({
+        username: username,
+        planName: selectedPkg.name,
+        planPrice: selectedPkg.price,
+        transactionId: txId,
+        screenshot: screenshotBase64,
+        status: 'pending',
+        processed: false,
+        createdAt: Date.now()
+    }).then(function() {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showToast('Submitted!', 'Deposit request sent for verification.', 'success');
         navigateTo('transactions');
-    }).catch(function(err){btn.classList.remove('loading');btn.disabled=false;showToast('Error','Failed to submit. Try again.','error')});
+    }).catch(function(err) {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showToast('Error', 'Failed to submit. Try again.', 'error');
+    });
 }
 
-function selectWithdrawMethod(methodId){
-    selectedWdMethod=withdrawMethods.find(function(m){return m.id===methodId});
-    if(!selectedWdMethod)return;
-    var iconEl=document.getElementById('wsmIcon');
-    iconEl.style.background=selectedWdMethod.colorLight;
-    iconEl.innerHTML='<i class="'+selectedWdMethod.icon+'" style="color:'+selectedWdMethod.color+'"></i>';
-    document.getElementById('wsmName').textContent=selectedWdMethod.name;
-    document.getElementById('wsmAvailable').textContent='PKR '+formatNum(currentUserData?(currentUserData.totalBalance||0):0);
-    document.getElementById('wdAccountName').value='';
-    document.getElementById('wdAccountNumber').value='';
-    document.getElementById('wdAmount').value='';
+function selectWithdrawMethod(methodId) {
+    selectedWdMethod = withdrawMethods.find(function(m) { return m.id === methodId; });
+    if (!selectedWdMethod) return;
+    var iconEl = document.getElementById('wsmIcon');
+    iconEl.style.background = selectedWdMethod.colorLight;
+    iconEl.innerHTML = '<i class="' + selectedWdMethod.icon + '" style="color:' + selectedWdMethod.color + '"></i>';
+    document.getElementById('wsmName').textContent = selectedWdMethod.name;
+    document.getElementById('wsmAvailable').textContent = 'PKR ' + formatNum(currentUserData ? (currentUserData.totalBalance || 0) : 0);
+    document.getElementById('wdAccountName').value = '';
+    document.getElementById('wdAccountNumber').value = '';
+    document.getElementById('wdAmount').value = '';
     clearAllErr();
     navigateTo('withdraw-form');
 }
 
-function submitWithdrawal(){
-    clearErr('wdNameErr');clearErr('wdNumErr');clearErr('wdAmountErr');
-    var name=document.getElementById('wdAccountName').value.trim();
-    var num=document.getElementById('wdAccountNumber').value.trim();
-    var amt=parseInt(document.getElementById('wdAmount').value);
-    var bal=currentUserData?(currentUserData.totalBalance||0):0;
-    var valid=true;
-    if(!name||name.length<3){showErr('wdNameErr','Enter a valid account name');valid=false}
-    if(!num||num.length<6){showErr('wdNumErr','Enter a valid account number');valid=false}
-    if(!amt||amt<5){showErr('wdAmountErr','Minimum withdrawal is PKR 5');valid=false}
-    else if(amt>bal){showErr('wdAmountErr','Insufficient balance. Available: PKR '+formatNum(bal));valid=false}
-    if(!valid)return;
-    if(!currentUser){showToast('Error','Session expired.','error');return}
-    var btn=document.getElementById('withdrawBtn');btn.classList.add('loading');btn.disabled=true;
-    var username=currentUserData?(currentUserData.username||'User'):'User';
-    var newWdRef=db.ref('withdrawals/'+currentUser.uid).push();
-    var updates={};
-    updates['withdrawals/'+currentUser.uid+'/'+newWdRef.key]={
-        username:username,
-        method:selectedWdMethod.id,
-        methodName:selectedWdMethod.name,
-        accountName:name,
-        accountNumber:num,
-        amount:amt,
-        status:'pending',
-        refunded:false,
-        createdAt:Date.now()
+function submitWithdrawal() {
+    clearErr('wdNameErr');
+    clearErr('wdNumErr');
+    clearErr('wdAmountErr');
+    var name = document.getElementById('wdAccountName').value.trim();
+    var num = document.getElementById('wdAccountNumber').value.trim();
+    var amt = parseInt(document.getElementById('wdAmount').value);
+    var bal = currentUserData ? (currentUserData.totalBalance || 0) : 0;
+    var valid = true;
+    if (!name || name.length < 3) { showErr('wdNameErr', 'Enter a valid account name'); valid = false; }
+    if (!num || num.length < 6) { showErr('wdNumErr', 'Enter a valid account number'); valid = false; }
+    if (!amt || amt < 5) { showErr('wdAmountErr', 'Minimum withdrawal is PKR 5'); valid = false; }
+    else if (amt > bal) { showErr('wdAmountErr', 'Insufficient balance. Available: PKR ' + formatNum(bal)); valid = false; }
+    if (!valid) return;
+    if (!currentUser) { showToast('Error', 'Session expired.', 'error'); return; }
+    var btn = document.getElementById('withdrawBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    var username = currentUserData ? (currentUserData.username || 'User') : 'User';
+    var newWdRef = db.ref('withdrawals/' + currentUser.uid).push();
+    var updates = {};
+    updates['withdrawals/' + currentUser.uid + '/' + newWdRef.key] = {
+        username: username,
+        method: selectedWdMethod.id,
+        methodName: selectedWdMethod.name,
+        accountName: name,
+        accountNumber: num,
+        amount: amt,
+        status: 'pending',
+        refunded: false,
+        createdAt: Date.now()
     };
-    updates['users/'+currentUser.uid+'/totalBalance']=bal-amt;
-    db.ref().update(updates).then(function(){
-        btn.classList.remove('loading');btn.disabled=false;
-        showToast('Submitted!','Withdrawal request of PKR '+formatNum(amt)+' submitted.','success');
+    updates['users/' + currentUser.uid + '/totalBalance'] = bal - amt;
+    db.ref().update(updates).then(function() {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showToast('Submitted!', 'Withdrawal request of PKR ' + formatNum(amt) + ' submitted.', 'success');
         navigateTo('transactions');
-    }).catch(function(err){
-        btn.classList.remove('loading');btn.disabled=false;
-        showToast('Error','Failed to submit. Try again.','error');
+    }).catch(function(err) {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showToast('Error', 'Failed to submit. Try again.', 'error');
     });
 }
 
-function copyText(text){
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToast('Copied',text,'success')})}
-    else{var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('Copied',text,'success')}catch(e){showToast('Error','Could not copy.','error')}document.body.removeChild(ta)}
+function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showToast('Copied', text, 'success'); });
+    } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast('Copied', text, 'success'); } catch (e) { showToast('Error', 'Could not copy.', 'error'); }
+        document.body.removeChild(ta);
+    }
 }
 
-document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin()});
-document.getElementById('signupConfirm').addEventListener('keydown',function(e){if(e.key==='Enter')handleSignup()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('screenshotModal').classList.contains('active'))closeModal();else if(sidebar.classList.contains('open'))closeSidebar()}});
-window.addEventListener('resize',function(){if(window.innerWidth>768)closeSidebar()});
+document.getElementById('loginPass').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleLogin(); });
+document.getElementById('signupConfirm').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSignup(); });
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (document.getElementById('screenshotModal').classList.contains('active')) closeModal();
+        else if (sidebar.classList.contains('open')) closeSidebar();
+    }
+});
+window.addEventListener('resize', function() { if (window.innerWidth > 768) closeSidebar(); });
 </script>
 </body>
 </html>
