@@ -769,6 +769,7 @@ function handleSignup() {
         return auth.createUserWithEmailAndPassword(email, pass);
     }).then(function(cred) {
         var updates = {};
+        // FIX: Storing referrerUid directly to ensure commission works later
         updates['users/' + cred.user.uid] = {
             username: name,
             phone: formatPhone(phone),
@@ -781,6 +782,7 @@ function handleSignup() {
             teamInvestment: 0,
             teamEarnings: 0,
             referredBy: refCode.toLowerCase(),
+            referrerUid: refUid, // <--- IMPORTANT FIX: Storing Referrer's UID directly
             createdAt: Date.now()
         };
         updates['usernames/' + name.toLowerCase()] = cred.user.uid;
@@ -1017,23 +1019,17 @@ function processApprovedDeposit(uid, depId, dep) {
         updates['users/' + uid + '/activePackages'] = firebase.database.ServerValue.increment(1);
         updates['users/' + uid + '/totalInvestment'] = firebase.database.ServerValue.increment(price);
 
-        return db.ref('users/' + uid + '/referredBy').once('value').then(function(refSnap) {
-            var referredBy = refSnap.val();
-            if (referredBy) {
-                return db.ref('usernames/' + referredBy).once('value').then(function(uidSnap) {
-                    if (uidSnap.exists()) return uidSnap.val();
-                    return null;
-                });
-            }
-            return null;
-        }).then(function(refUid) {
-            if (refUid) {
+        // FIX: Direct Referral Logic
+        return db.ref('users/' + uid + '/referrerUid').once('value').then(function(refSnap) {
+            var referrerUid = refSnap.val();
+            
+            if (referrerUid) {
                 var commission = Math.round(price * 0.15);
                 if (commission > 0) {
-                    updates['users/' + refUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + refUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + refUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
-                    updates['users/' + refUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + referrerUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + referrerUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + referrerUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
+                    updates['users/' + referrerUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
                 }
             }
             return db.ref().update(updates);
