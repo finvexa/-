@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finvexa — Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --primary:#1e56a0;--primary-light:#e8f0fe;--primary-dark:#163d72;
+            --accent:#0ea5e9;--success:#10b981;--success-light:#d1fae5;
+            --warning:#f59e0b;--warning-light:#fef3c7;--danger:#ef4444;
+            --bg:#f1f5f9;--card:#fff;--text:#0f172a;--text-sec:#475569;
+            --text-muted:#94a3b8;--border:#e2e8f0;
+            --shadow:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 6px rgba(0,0,0,.07);
+            --shadow-lg:0 10px 25px rgba(0,0,0,.08);--shadow-xl:0 20px 40px rgba(0,0,0,.1);
+            --radius:14px;--radius-sm:10px;--sidebar-w:270px;
+            --easypaisa:#36b37e;--easypaisa-dark:#2ba84a;--easypaisa-light:#e3fcef;
+            --pkg-color:#1e40af;
+            --jazzcash:#c0392b;--jazzcash-light:#fde8e8;
+            --nayapay:#7c3aed;--nayapay-light:#ede9fe;
+            --sadapay:#1e3a5f;--sadapay-light:#e0eafc;
+            --upaisa:#ea580c;--upaisa-light:#fff7ed;
+            --bank:#2563eb;--bank-light:#eff6ff;
+        }
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        .loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .4s}
+        .loading-screen.hide{opacity:0;pointer-events:none}
+        .loading-logo{width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Outfit';font-weight:800;font-size:24px;box-shadow:0 8px 24px rgba(30,86,160,.3);animation:loadPulse 1.2s infinite}
+        @keyframes loadPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+        .loading-text{font-size:14px;color:var(--text-muted);font-weight:500}
+        .loading-dots{display:inline-flex;gap:4px}
+        .loading-dots span{width:6px;height:6px;background:var(--primary);border-radius:50%;animation:dotBounce .6s infinite alternate}
+        .loading-dots span:nth-child(2){animation-delay:.15s}
+        .loading-dots span:nth-child(3){animation-delay:.3s}
+        @keyframes dotBounce{to{opacity:.3;transform:translateY(-4px)}}
+        .auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;background:linear-gradient(135deg,#e8f0fe 0%,#f1f5f9 50%,#ede9fe 100%)}
+        .auth-wrapper::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(30,86,160,.08),transparent 70%);border-radius:50%;top:-100px;right:-100px}
+        .auth-wrapper::after{content:'';position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(14,165,233,.06),transparent 70%);border-radius:50%;bottom:-80px;left:-80px}
+        .auth-page{width:100%;max-width:420px;position:relative;z-index:1}
+        .auth-card{background:var(--card);border-radius:20px;padding:40px 32px;box-shadow:0 12px 40px rgba(0,0,0,.08);border:1px solid var(--border)}
+        .auth-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+        .auth-logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Outfit';font-weight:800;font-size:20px;box-shadow:0 4px 12px rgba(30,86,160,.3)}
+        .auth-logo-text{font-family:'Outfit';font-weight:700;font-size:24px;color:var(--text)}
+        .auth-logo-text span{color:var(--primary)}
+        .auth-subtitle{text-align:center;font-size:14px;color:var(--text-muted);margin-bottom:28px;font-weight:400}
+        .auth-title{text-align:center;font-family:'Outfit';font-weight:700;font-size:20px;color:var(--text);margin-bottom:24px}
+        .form-group{margin-bottom:18px}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-sec);margin-bottom:6px}
+        .form-input-wrap{position:relative}
+        .form-input-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:15px;pointer-events:none;transition:color .2s}
+        .form-input{width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);transition:all .2s;outline:none}
+        .form-input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(30,86,160,.1)}
+        .form-input::placeholder{color:var(--text-muted)}
+        .form-input.no-icon{padding-left:14px}
+        .auth-btn{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .25s;box-shadow:0 4px 15px rgba(30,86,160,.25);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+        .auth-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(30,86,160,.35)}
+        .auth-btn:active{transform:translateY(0)}
+        .auth-btn.loading{pointer-events:none;opacity:.8}
+        .auth-btn .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+        .auth-btn.loading .spinner{display:block}
+        .auth-btn.loading .btn-text{display:none}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .auth-links{text-align:center;margin-top:20px;font-size:13.5px;color:var(--text-muted)}
+        .auth-links a{color:var(--primary);font-weight:600;text-decoration:none;cursor:pointer;transition:color .2s}
+        .auth-links a:hover{color:var(--primary-dark);text-decoration:underline}
+        .form-error{font-size:12px;color:var(--danger);margin-top:4px;display:none;font-weight:500}
+        .form-error.show{display:block}
+        .forgot-info{text-align:center;padding:10px 0}
+        .forgot-icon{width:64px;height:64px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px;color:var(--danger)}
+        .forgot-text{font-size:14px;color:var(--text-sec);line-height:1.6;margin-bottom:20px}
+        .forgot-wa-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#25d366;color:#fff;border:none;border-radius:12px;font-size:14.5px;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 4px 15px rgba(37,211,102,.3);transition:all .25s}
+        .forgot-wa-btn:hover{background:#1da851;transform:translateY(-2px)}
+        .toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+        .toast{display:flex;align-items:flex-start;gap:12px;padding:16px 14px 16px 18px;background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.12);min-width:300px;max-width:400px;position:relative;overflow:hidden;border-left:4px solid;pointer-events:auto;animation:toastIn .5s cubic-bezier(.34,1.56,.64,1)}
+        .toast.leaving{animation:toastOut .35s ease forwards}
+        .toast.success{border-left-color:var(--success)}
+        .toast.error{border-left-color:var(--danger)}
+        .toast.info{border-left-color:var(--primary)}
+        .toast-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;margin-top:1px}
+        .toast.success .toast-icon{background:var(--success-light);color:var(--success)}
+        .toast.error .toast-icon{background:#fee2e2;color:var(--danger)}
+        .toast.info .toast-icon{background:var(--primary-light);color:var(--primary)}
+        .toast-body{flex:1;min-width:0}
+        .toast-title{font-weight:700;font-size:14px;color:var(--text)}
+        .toast-msg{font-size:13px;color:var(--text-sec);margin-top:2px;line-height:1.4}
+        .toast-close{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;padding:4px;transition:color .2s;flex-shrink:0}
+        .toast-close:hover{color:var(--text)}
+        .toast-progress{position:absolute;bottom:0;left:0;height:3px;animation:toastProg 3.5s linear forwards}
+        .toast.success .toast-progress{background:var(--success)}
+        .toast.error .toast-progress{background:var(--danger)}
+        .toast.info .toast-progress{background:var(--primary)}
+        @keyframes toastIn{from{opacity:0;transform:translateX(80px) scale(.85)}to{opacity:1;transform:translateX(0) scale(1)}}
+        @keyframes toastOut{from{opacity:1;transform:translateX(0) scale(1)}to{opacity:0;transform:translateX(80px) scale(.85)}}
+        @keyframes toastProg{from{width:100%}to{width:0%}}
+        .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:1000;transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:var(--shadow-md)}
+        .sidebar-header{padding:24px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+        .sidebar-logo{width:42px;height:42px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Outfit';font-weight:800;font-size:18px;box-shadow:0 4px 12px rgba(30,86,160,.3)}
+        .sidebar-brand{font-family:'Outfit';font-weight:700;font-size:22px;color:var(--text);letter-spacing:-.5px}
+        .sidebar-brand span{color:var(--primary)}
+        .sidebar-nav{flex:1;padding:16px 14px;overflow-y:auto}
+        .nav-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:12px 14px 8px}
+        .nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--radius-sm);color:var(--text-sec);text-decoration:none;font-size:14.5px;font-weight:500;transition:all .2s;margin-bottom:3px;cursor:pointer;position:relative}
+        .nav-item i{width:20px;text-align:center;font-size:16px}
+        .nav-item:hover{background:var(--primary-light);color:var(--primary)}
+        .nav-item.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 12px rgba(30,86,160,.25)}
+        .nav-item.active i{color:#fff}
+        .nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;line-height:1.4}
+        .nav-item.active .nav-badge{background:rgba(255,255,255,.25)}
+        .sidebar-footer{padding:16px 14px;border-top:1px solid var(--border)}
+        .sidebar-user{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--bg)}
+        .sidebar-avatar{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+        .sidebar-user-name{font-weight:600;font-size:13.5px;color:var(--text)}
+        .sidebar-user-role{font-size:12px;color:var(--text-muted)}
+        .sidebar-overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s}
+        .sidebar-overlay.active{opacity:1;visibility:visible}
+        .main{margin-left:var(--sidebar-w);min-height:100vh;transition:margin-left .35s cubic-bezier(.4,0,.2,1)}
+        .topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+        .topbar-left{display:flex;align-items:center;gap:16px}
+        .hamburger{display:none;width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:10px;transition:all .2s}
+        .hamburger:hover{background:var(--primary-light);border-color:var(--primary)}
+        .hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+        .topbar-title{font-weight:700;font-size:18px;color:var(--text)}
+        .topbar-right{display:flex;align-items:center;gap:10px}
+        .topbar-btn{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-sec);font-size:16px;transition:all .2s;position:relative}
+        .topbar-btn:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+        .topbar-btn .notif-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:2px solid var(--card)}
+        .content{padding:28px}
+        .page-view{display:none}.page-view.active{display:block}
+        .welcome-section{margin-bottom:28px}
+        .welcome-text{font-size:26px;font-weight:800;color:var(--text);font-family:'Outfit';letter-spacing:-.5px}
+        .welcome-sub{font-size:14.5px;color:var(--text-sec);margin-top:4px}
+        .welcome-sub i{color:var(--success);margin-right:4px}
+        .balance-card{background:linear-gradient(135deg,#1e56a0 0%,#163d72 40%,#0d2b50 100%);border-radius:18px;padding:36px 32px;color:#fff;position:relative;overflow:hidden;margin-bottom:24px;box-shadow:0 12px 35px rgba(30,86,160,.3)}
+        .balance-card::before{content:'';position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(14,165,233,.2) 0%,transparent 70%);border-radius:50%}
+        .balance-card::after{content:'';position:absolute;bottom:-30%;left:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+        .balance-card>*{position:relative;z-index:1}
+        .balance-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+        .balance-label{font-size:14px;color:rgba(255,255,255,.7);font-weight:500}
+        .balance-label i{margin-right:6px}
+        .balance-status{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;font-size:12.5px;font-weight:600}
+        .balance-status .dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulseDot 2s infinite}
+        @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.4}}
+        .balance-amount{font-family:'Outfit';font-size:48px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+        .balance-amount .currency{font-size:28px;font-weight:600;opacity:.8;margin-right:4px}
+        .balance-decor{position:absolute;z-index:0;border:1px solid rgba(255,255,255,.08);border-radius:50%}
+        .balance-decor-1{width:180px;height:180px;top:-40px;right:30px}
+        .balance-decor-2{width:120px;height:120px;bottom:-30px;right:80px}
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px}
+        .stat-card{background:var(--card);border-radius:var(--radius);padding:22px;border:1px solid var(--border);box-shadow:var(--shadow);transition:all .3s;position:relative;overflow:hidden}
+        .stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+        .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+        .stat-card:nth-child(1)::after{background:linear-gradient(90deg,var(--primary),var(--accent))}
+        .stat-card:nth-child(2)::after{background:linear-gradient(90deg,var(--success),#34d399)}
+        .stat-card:nth-child(3)::after{background:linear-gradient(90deg,var(--warning),#fbbf24)}
+        .stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
+        .stat-card:nth-child(1) .stat-icon{background:var(--primary-light);color:var(--primary)}
+        .stat-card:nth-child(2) .stat-icon{background:var(--success-light);color:var(--success)}
+        .stat-card:nth-child(3) .stat-icon{background:var(--warning-light);color:var(--warning)}
+        .stat-label{font-size:13px;color:var(--text-muted);font-weight:500;margin-bottom:6px}
+        .stat-value{font-family:'Outfit';font-size:24px;font-weight:700;color:var(--text)}
+        .stat-change{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:8px;padding:3px 8px;border-radius:6px}
+        .stat-change.up{color:var(--success);background:var(--success-light)}
+        .stat-change.down{color:var(--danger);background:#fee2e2}
+        .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+        .info-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:all .3s}
+        .info-card:hover{box-shadow:var(--shadow-lg)}
+        .info-card-header{padding:20px 22px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+        .info-card-header i{font-size:16px;color:var(--primary)}
+        .info-card-header h3{font-size:15px;font-weight:700;color:var(--text)}
+        .info-card-body{padding:20px 22px}
+        .about-text{font-size:14px;line-height:1.7;color:var(--text-sec)}
+        .about-features{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+        .about-tag{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--primary-light);color:var(--primary);font-size:12px;font-weight:600;border-radius:8px}
+        .about-tag i{font-size:10px}
+        .wa-card{text-align:center}
+        .wa-icon{width:64px;height:64px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px;color:#25d366}
+        .wa-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+        .wa-desc{font-size:13px;color:var(--text-sec);margin-bottom:18px;line-height:1.6}
+        .wa-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#25d366;color:#fff;border:none;border-radius:12px;font-size:14.5px;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 4px 15px rgba(37,211,102,.3);transition:all .25s}
+        .wa-btn:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,.4)}
+        .contact-grid{display:flex;flex-direction:column;gap:14px}
+        .contact-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg);border-radius:var(--radius-sm);transition:all .2s}
+        .contact-item:hover{background:var(--primary-light)}
+        .contact-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+        .contact-detail-label{font-size:12px;color:var(--text-muted);font-weight:500}
+        .contact-detail-value{font-size:14px;font-weight:600;color:var(--text);margin-top:2px}
+        .contact-action{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:13px;transition:all .2s}
+        .contact-action:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+        .referral-link-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px 14px 14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+        .referral-link-text{font-size:12.5px;color:var(--text-sec);word-break:break-all;font-weight:500}
+        .referral-stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
+        .rstat-card{background:var(--bg);border-radius:var(--radius-sm);padding:16px;text-align:center}
+        .rstat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:16px}
+        .rstat-value{font-family:'Outfit';font-size:20px;font-weight:700;color:var(--text)}
+        .rstat-label{font-size:11.5px;color:var(--text-muted);font-weight:600;margin-top:4px}
+        .packages-page-header{margin-bottom:28px}
+        .packages-page-title{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px}
+        .packages-page-sub{font-size:14.5px;color:var(--text-sec);margin-top:4px}
+        .packages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+        .pkg-card{background:var(--card);border-radius:var(--radius);padding:22px 18px;text-align:center;border:1.5px solid var(--border);border-top:4px solid var(--pkg-color);transition:all .3s;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+        .pkg-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--pkg-color)}
+        .pkg-badge{position:absolute;top:14px;right:-28px;background:var(--pkg-color);color:#fff;font-size:9px;font-weight:700;padding:4px 34px;transform:rotate(45deg);text-transform:uppercase;letter-spacing:.5px}
+        .pkg-name{font-family:'Outfit';font-size:17px;font-weight:700;color:var(--text);margin-bottom:3px}
+        .pkg-duration{font-size:12px;color:var(--text-muted);font-weight:500}
+        .pkg-price{font-family:'Outfit';font-size:28px;font-weight:800;color:var(--pkg-color);margin:12px 0}
+        .pkg-price span{font-size:12px;font-weight:500;color:var(--text-muted)}
+        .pkg-divider{height:1px;background:var(--border);margin:12px 0}
+        .pkg-features{list-style:none;text-align:left}
+        .pkg-features li{font-size:12.5px;color:var(--text-sec);padding:4px 0;display:flex;align-items:center;gap:7px}
+        .pkg-features li i{color:var(--pkg-color);font-size:11px;flex-shrink:0}
+        .pkg-btn{display:block;width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .25s;margin-top:14px;background:var(--pkg-color);color:#fff;box-shadow:0 3px 10px rgba(30,64,175,.2)}
+        .pkg-btn:hover{filter:brightness(.85);transform:translateY(-1px)}
+        .buy-method-wrap{max-width:460px;margin:0 auto}
+        .back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--text-sec);font-size:14px;font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit;padding:8px 0;margin-bottom:20px;transition:color .2s}
+        .back-btn:hover{color:var(--primary)}
+        .buy-method-title{font-family:'Outfit';font-size:24px;font-weight:800;color:var(--text);margin-bottom:6px}
+        .buy-method-sub{font-size:14px;color:var(--text-sec);margin-bottom:28px}
+        .buy-selected-plan{background:var(--primary-light);border:1px solid rgba(30,86,160,.15);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+        .buy-selected-plan .plan-label{font-size:12px;color:var(--primary);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+        .buy-selected-plan .plan-info{font-family:'Outfit';font-size:18px;font-weight:700;color:var(--text);margin-top:2px}
+        .buy-selected-plan .plan-price{font-family:'Outfit';font-size:20px;font-weight:800;color:var(--primary)}
+        .method-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:all .3s;box-shadow:var(--shadow)}
+        .method-card:hover{border-color:var(--easypaisa);box-shadow:0 8px 30px rgba(54,179,126,.15);transform:translateY(-3px)}
+        .method-icon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:34px}
+        .method-icon i{color:var(--easypaisa)}
+        .method-name{font-family:'Outfit';font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+        .method-flag{font-size:13px;color:var(--text-sec)}
+        .method-arrow{margin-top:14px;color:var(--text-muted);font-size:18px;transition:all .2s}
+        .method-card:hover .method-arrow{color:var(--easypaisa);transform:translateX(4px)}
+        .buy-payment-wrap{max-width:520px;margin:0 auto}
+        .payment-details-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px}
+        .payment-details-header{background:var(--easypaisa);padding:16px 22px;display:flex;align-items:center;gap:10px;color:#fff}
+        .payment-details-header i{font-size:20px}
+        .payment-details-header span{font-weight:700;font-size:16px}
+        .payment-details-body{padding:22px}
+        .payment-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+        .payment-row:last-child{border-bottom:none}
+        .payment-row-label{font-size:13px;color:var(--text-muted);font-weight:500}
+        .payment-row-value{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+        .payment-row-value .copy-sm{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:11px;transition:all .2s}
+        .payment-row-value .copy-sm:hover{background:var(--easypaisa);color:#fff;border-color:var(--easypaisa)}
+        .payment-instructions{background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
+        .payment-instructions i{color:var(--warning);font-size:18px;margin-top:2px;flex-shrink:0}
+        .payment-instructions p{font-size:13px;color:#92400e;line-height:1.6}
+        .payment-form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+        .payment-form-title{font-family:'Outfit';font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+        .payment-form-title i{color:var(--primary);font-size:16px}
+        .upload-area{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:30px 20px;text-align:center;cursor:pointer;transition:all .25s;background:var(--bg);position:relative;overflow:hidden}
+        .upload-area:hover{border-color:var(--primary);background:var(--primary-light)}
+        .upload-area.has-file{border-color:var(--success);background:var(--success-light);padding:12px}
+        .upload-area i{font-size:28px;color:var(--text-muted);margin-bottom:8px}
+        .upload-area p{font-size:13px;color:var(--text-sec)}
+        .upload-area .browse{color:var(--primary);font-weight:600;text-decoration:underline;cursor:pointer}
+        .upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer}
+        .upload-preview{max-width:100%;max-height:200px;border-radius:8px;margin-top:8px;box-shadow:var(--shadow)}
+        .upload-remove{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--danger);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;z-index:2}
+        .confirm-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--easypaisa);color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .25s;box-shadow:0 4px 15px rgba(54,179,126,.3);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px}
+        .confirm-btn:hover{background:var(--easypaisa-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(54,179,126,.4)}
+        .confirm-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+        .confirm-btn.loading{pointer-events:none}
+        .confirm-btn .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+        .confirm-btn.loading .spinner{display:block}
+        .confirm-btn.loading .btn-text{display:none}
+        .tx-page-header{margin-bottom:24px}
+        .tx-page-title{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px}
+        .tx-page-sub{font-size:14.5px;color:var(--text-sec);margin-top:4px}
+        .tx-tabs{display:flex;gap:8px;margin-bottom:20px}
+        .tx-tab{padding:8px 20px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:13px;font-weight:600;color:var(--text-sec);cursor:pointer;transition:all .2s;font-family:inherit}
+        .tx-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+        .tx-tab:hover:not(.active){background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+        .tx-list{display:flex;flex-direction:column;gap:14px}
+        .tx-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;transition:all .2s}
+        .tx-card:hover{box-shadow:var(--shadow-md)}
+        .tx-icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+        .tx-icon-wrap.pending{background:var(--warning-light);color:var(--warning)}
+        .tx-icon-wrap.success{background:var(--success-light);color:var(--success)}
+        .tx-icon-wrap.rejected{background:#fee2e2;color:var(--danger)}
+        .tx-icon-wrap.withdraw{background:#eff6ff;color:var(--bank)}
+        .tx-info{flex:1;min-width:0}
+        .tx-plan{font-weight:700;font-size:15px;color:var(--text)}
+        .tx-id{font-size:12px;color:var(--text-muted);margin-top:2px}
+        .tx-id span{font-weight:600;color:var(--text-sec)}
+        .tx-date{font-size:11.5px;color:var(--text-muted);margin-top:2px}
+        .tx-right{text-align:right;flex-shrink:0}
+        .tx-amount{font-family:'Outfit';font-size:16px;font-weight:700;color:var(--text)}
+        .tx-amount.negative{color:var(--danger)}
+        .tx-status{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;margin-top:4px}
+        .tx-status.pending{color:var(--warning);background:var(--warning-light)}
+        .tx-status.success{color:var(--success);background:var(--success-light)}
+        .tx-status.rejected{color:var(--danger);background:#fee2e2}
+        .tx-screenshot-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:13px;transition:all .2s;flex-shrink:0}
+        .tx-screenshot-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-state i{font-size:48px;color:var(--border);margin-bottom:16px}
+        .empty-state h3{font-family:'Outfit';font-size:18px;font-weight:700;color:var(--text-muted);margin-bottom:6px}
+        .empty-state p{font-size:13px;color:var(--text-muted)}
+        .task-page-header{margin-bottom:24px}
+        .task-page-title{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px}
+        .task-page-sub{font-size:14.5px;color:var(--text-sec);margin-top:4px}
+        .task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+        .task-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:all .3s}
+        .task-card:hover{box-shadow:var(--shadow-lg)}
+        .task-card-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .task-card-header .task-plan{font-family:'Outfit';font-size:17px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+        .task-card-header .task-plan i{color:var(--primary);font-size:16px}
+        .task-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px}
+        .task-badge.active{color:var(--success);background:var(--success-light)}
+        .task-badge.completed{color:var(--primary);background:var(--primary-light)}
+        .task-card-body{padding:20px}
+        .task-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+        .task-stat{background:var(--bg);border-radius:var(--radius-sm);padding:12px;text-align:center}
+        .task-stat-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+        .task-stat-value{font-family:'Outfit';font-size:18px;font-weight:700;color:var(--text);margin-top:4px}
+        .task-progress-wrap{margin-bottom:16px}
+        .task-progress-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+        .task-progress-label span:first-child{color:var(--text-sec);font-weight:500}
+        .task-progress-label span:last-child{color:var(--primary);font-weight:700}
+        .task-progress-bar{height:8px;background:var(--border);border-radius:10px;overflow:hidden}
+        .task-progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:10px;transition:width .5s ease}
+        .task-claim-btn{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+        .task-claim-btn.available{background:linear-gradient(135deg,var(--success),#059669);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,.3)}
+        .task-claim-btn.available:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(16,185,129,.4)}
+        .task-claim-btn.cooldown{background:var(--bg);color:var(--text-muted);cursor:not-allowed;border:1px solid var(--border)}
+        .task-claim-btn.done{background:var(--primary-light);color:var(--primary);cursor:default}
+        .task-timer{font-size:13px;font-weight:600;color:var(--warning)}
+        .wallet-balance-card{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);border-radius:20px;padding:40px 32px;color:#fff;position:relative;overflow:hidden;margin-bottom:24px;box-shadow:0 12px 40px rgba(15,23,42,.3)}
+        .wallet-balance-card::before{content:'';position:absolute;top:-40%;right:-15%;width:350px;height:350px;background:radial-gradient(circle,rgba(14,165,233,.15) 0%,transparent 70%);border-radius:50%}
+        .wallet-balance-card::after{content:'';position:absolute;bottom:-30%;left:-10%;width:250px;height:250px;background:radial-gradient(circle,rgba(16,185,129,.1) 0%,transparent 70%);border-radius:50%}
+        .wallet-balance-card>*{position:relative;z-index:1}
+        .wallet-balance-label{font-size:14px;color:rgba(255,255,255,.6);font-weight:500;margin-bottom:12px}
+        .wallet-balance-label i{margin-right:6px}
+        .wallet-balance-amount{font-family:'Outfit';font-size:52px;font-weight:800;letter-spacing:-1px;line-height:1}
+        .wallet-balance-amount .cur{font-size:26px;font-weight:600;opacity:.7;margin-right:4px}
+        .wallet-actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+        .wallet-action-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .25s;font-family:inherit}
+        .wallet-action-btn.primary{background:var(--success);color:#fff;box-shadow:0 4px 15px rgba(16,185,129,.3)}
+        .wallet-action-btn.primary:hover{background:#059669;transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,185,129,.4)}
+        .withdraw-methods-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .wmethod-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:24px 18px;text-align:center;cursor:pointer;transition:all .3s;box-shadow:var(--shadow)}
+        .wmethod-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+        .wmethod-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px}
+        .wmethod-icon i{color:#fff}
+        .wmethod-name{font-family:'Outfit';font-size:16px;font-weight:700;color:var(--text)}
+        .wmethod-arrow{margin-top:10px;color:var(--text-muted);font-size:15px;transition:transform .2s}
+        .wmethod-card:hover .wmethod-arrow{transform:translateX(4px)}
+        .withdraw-form-wrap{max-width:520px;margin:0 auto}
+        .withdraw-selected-method{border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:14px}
+        .withdraw-selected-method .wsm-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .withdraw-selected-method .wsm-icon i{color:#fff}
+        .withdraw-selected-method .wsm-name{font-family:'Outfit';font-size:18px;font-weight:700;color:var(--text)}
+        .withdraw-available{font-size:13px;color:var(--text-muted);margin-top:2px}
+        .withdraw-available span{color:var(--success);font-weight:700}
+        .amount-input-wrap{position:relative;margin-bottom:18px}
+        .amount-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--text-sec);font-size:15px}
+        .amount-input-wrap .form-input{padding-left:50px;font-size:18px;font-weight:700;font-family:'Outfit'}
+        .amount-hint{font-size:12px;color:var(--text-muted);margin-top:6px}
+        .amount-hint span{color:var(--danger);font-weight:600}
+        .withdraw-btn{width:100%;padding:14px;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+        .withdraw-btn:hover{transform:translateY(-1px);filter:brightness(.9)}
+        .withdraw-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .withdraw-btn.loading{pointer-events:none}
+        .withdraw-btn .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+        .withdraw-btn.loading .spinner{display:block}
+        .withdraw-btn.loading .btn-text{display:none}
+        .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+        .modal-overlay.active{display:flex}
+        .modal-content{background:var(--card);border-radius:18px;max-width:500px;width:100%;max-height:90vh;overflow:auto;box-shadow:var(--shadow-xl);animation:fadeUp .3s ease}
+        .modal-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .modal-header h3{font-family:'Outfit';font-size:17px;font-weight:700;color:var(--text)}
+        .modal-close{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-sec);font-size:14px;transition:all .2s}
+        .modal-close:hover{background:#fee2e2;color:var(--danger);border-color:#fee2e2}
+        .modal-body{padding:22px;text-align:center}
+        .modal-body img{max-width:100%;max-height:60vh;border-radius:12px;box-shadow:var(--shadow)}
+        .profile-avatar-lg{width:88px;height:88px;border-radius:22px;background:linear-gradient(135deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:36px;margin:0 auto 18px;box-shadow:0 8px 24px rgba(30,86,160,.25)}
+        .profile-name{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px}
+        .profile-role{font-size:13px;color:var(--text-muted);margin-top:4px}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .animate-in{animation:fadeUp .5s ease forwards;opacity:0}
+        .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}
+        .d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}.d9{animation-delay:.45s}.d10{animation-delay:.5s}
+        .d11{animation-delay:.55s}.d12{animation-delay:.6s}.d13{animation-delay:.65s}.d14{animation-delay:.7s}.d15{animation-delay:.75s}
+        @media(max-width:1024px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:var(--shadow-xl)}
+            .main{margin-left:0}.hamburger{display:flex}.content{padding:20px 16px}.topbar{padding:12px 16px}
+            .stats-grid{grid-template-columns:1fr 1fr;gap:12px}.bottom-grid{grid-template-columns:1fr;gap:14px}
+            .balance-amount{font-size:36px}.balance-card{padding:28px 22px}.welcome-text{font-size:22px}
+            .packages-grid{grid-template-columns:1fr 1fr}.auth-card{padding:32px 24px}
+            .task-grid{grid-template-columns:1fr}.withdraw-methods-grid{grid-template-columns:1fr}
+            .wallet-balance-amount{font-size:38px}.referral-stats-grid{grid-template-columns:1fr}
+        }
+        @media(max-width:480px){.stats-grid{grid-template-columns:1fr}.balance-amount{font-size:30px}.topbar-title{font-size:15px}.packages-grid{grid-template-columns:1fr}.tx-card{flex-wrap:wrap}.tx-right{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--border)}}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+    </style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo">F</div>
+    <div class="loading-text">Loading <span class="loading-dots"><span></span><span></span><span></span></span></div>
+</div>
+
+<!-- AUTH -->
+<div class="auth-wrapper" id="authWrapper" style="display:none">
+    <div class="auth-page" id="loginPage">
+        <div class="auth-card">
+            <div class="auth-logo"><div class="auth-logo-icon">F</div><div class="auth-logo-text">Fin<span>vexa</span></div></div>
+            <div class="auth-subtitle">Your trusted investment partner</div>
+            <div class="auth-title">Sign In</div>
+            <div class="form-group"><label class="form-label">Phone Number</label><div class="form-input-wrap"><input type="tel" class="form-input" id="loginPhone" placeholder="0300 1234567" maxlength="15"><i class="fas fa-phone"></i></div><div class="form-error" id="loginPhoneErr"></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="form-input-wrap"><input type="password" class="form-input" id="loginPass" placeholder="Enter your password"><i class="fas fa-lock"></i></div><div class="form-error" id="loginPassErr"></div></div>
+            <button class="auth-btn" id="loginBtn" onclick="handleLogin()"><span class="btn-text">Sign In</span><div class="spinner"></div></button>
+            <div class="auth-links" style="margin-top:14px"><a onclick="showPage('forgot')">Forgot Password?</a></div>
+            <div class="auth-links">Don't have an account? <a onclick="showPage('signup')">Sign Up</a></div>
+        </div>
+    </div>
+    <div class="auth-page" id="signupPage" style="display:none">
+        <div class="auth-card">
+            <div class="auth-logo"><div class="auth-logo-icon">F</div><div class="auth-logo-text">Fin<span>vexa</span></div></div>
+            <div class="auth-subtitle">Your trusted investment partner</div>
+            <div class="auth-title">Create Account</div>
+            <div class="form-group"><label class="form-label">Username</label><div class="form-input-wrap"><input type="text" class="form-input" id="signupName" placeholder="Enter your username" maxlength="20"><i class="fas fa-user"></i></div><div class="form-error" id="signupNameErr"></div></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><div class="form-input-wrap"><input type="tel" class="form-input" id="signupPhone" placeholder="0300 1234567" maxlength="15"><i class="fas fa-phone"></i></div><div class="form-error" id="signupPhoneErr"></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="form-input-wrap"><input type="password" class="form-input" id="signupPass" placeholder="Min 6 characters"><i class="fas fa-lock"></i></div><div class="form-error" id="signupPassErr"></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="form-input-wrap"><input type="password" class="form-input" id="signupConfirm" placeholder="Re-enter password"><i class="fas fa-shield-alt"></i></div><div class="form-error" id="signupConfirmErr"></div></div>
+            <button class="auth-btn" id="signupBtn" onclick="handleSignup()"><span class="btn-text">Create Account</span><div class="spinner"></div></button>
+            <div class="auth-links">Already have an account? <a onclick="showPage('login')">Sign In</a></div>
+        </div>
+    </div>
+    <div class="auth-page" id="forgotPage" style="display:none">
+        <div class="auth-card">
+            <div class="auth-logo"><div class="auth-logo-icon">F</div><div class="auth-logo-text">Fin<span>vexa</span></div></div>
+            <div class="forgot-info">
+                <div class="forgot-icon"><i class="fas fa-lock"></i></div>
+                <div class="auth-title">Forgot Password?</div>
+                <div class="forgot-text">Don't worry! Contact our admin on WhatsApp to reset your password quickly and securely.</div>
+                <a href="https://wa.me/923433335691" target="_blank" class="forgot-wa-btn"><i class="fab fa-whatsapp"></i> Contact Admin on WhatsApp</a>
+            </div>
+            <div class="auth-links" style="margin-top:24px"><a onclick="showPage('login')"><i class="fas fa-arrow-left" style="margin-right:4px"></i> Back to Sign In</a></div>
+        </div>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="appWrapper" style="display:none">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><div class="sidebar-logo">F</div><div class="sidebar-brand">Fin<span>vexa</span></div></div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Menu</div>
+            <a class="nav-item active" data-page="dashboard" href="#"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a class="nav-item" data-page="packages" href="#"><i class="fas fa-box-open"></i> Packages <span class="nav-badge">15</span></a>
+            <a class="nav-item" data-page="tasks" href="#"><i class="fas fa-tasks"></i> Tasks</a>
+            <a class="nav-item" data-page="transactions" href="#"><i class="fas fa-exchange-alt"></i> Transactions</a>
+            <div class="nav-label">Account</div>
+            <a class="nav-item" data-page="wallet" href="#"><i class="fas fa-wallet"></i> Wallet</a>
+            <a class="nav-item" data-page="referral" href="#"><i class="fas fa-user-plus"></i> Referral</a>
+            <a class="nav-item" data-page="support" href="#"><i class="fas fa-headset"></i> Support</a>
+            <a class="nav-item" data-page="profile" href="#"><i class="fas fa-user-circle"></i> Profile</a>
+            <div class="nav-label">Other</div>
+            <a class="nav-item" href="#"><i class="fas fa-file-alt"></i> KYC Verification</a>
+            <a class="nav-item" id="logoutBtn" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+                <div><div class="sidebar-user-name" id="sidebarName">Loading...</div><div class="sidebar-user-role">Member</div></div>
+            </div>
+        </div>
+    </aside>
+    <main class="main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <div class="topbar-title" id="topbarTitle">Dashboard</div>
+            </div>
+            <div class="topbar-right">
+                <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+            </div>
+        </header>
+        <div class="content">
+
+            <!-- Dashboard -->
+            <div class="page-view active" id="page-dashboard">
+                <div class="welcome-section animate-in"><div class="welcome-text" id="welcomeText">Welcome back</div><div class="welcome-sub"><i class="fas fa-circle"></i> Your account is active and running smoothly</div></div>
+                <div class="balance-card animate-in d1"><div class="balance-decor balance-decor-1"></div><div class="balance-decor balance-decor-2"></div><div class="balance-top"><div class="balance-label"><i class="fas fa-shield-alt"></i> Total Balance</div><div class="balance-status"><span class="dot"></span> Active</div></div><div class="balance-amount"><span class="currency">PKR</span> <span id="dashBalance">0</span></div></div>
+                <div class="stats-grid">
+                    <div class="stat-card animate-in d2"><div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="stat-label">Total Investment</div><div class="stat-value">PKR <span id="dashInvestment">0</span></div><div class="stat-change up"><i class="fas fa-arrow-up"></i> Active</div></div>
+                    <div class="stat-card animate-in d3"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Total Earnings</div><div class="stat-value">PKR <span id="dashEarnings">0</span></div><div class="stat-change up"><i class="fas fa-arrow-up"></i> Growing</div></div>
+                    <div class="stat-card animate-in d4"><div class="stat-icon"><i class="fas fa-cube"></i></div><div class="stat-label">Active Packages</div><div class="stat-value"><span id="dashPackages">0</span></div><div class="stat-change up"><i class="fas fa-check"></i> On Track</div></div>
+                </div>
+                <div class="bottom-grid">
+                    <div class="info-card animate-in d4"><div class="info-card-header"><i class="fas fa-info-circle"></i><h3>About Finvexa</h3></div><div class="info-card-body"><p class="about-text">Finvexa is a trusted Pakistani investment platform that gives you the opportunity to earn daily returns. Our plans are safe and transparent, designed for every category of investor.</p><div class="about-features"><span class="about-tag"><i class="fas fa-check"></i> Daily Returns</span><span class="about-tag"><i class="fas fa-check"></i> Secure</span><span class="about-tag"><i class="fas fa-check"></i> 24/7 Support</span><span class="about-tag"><i class="fas fa-check"></i> Instant Withdraw</span><span class="about-tag"><i class="fas fa-check"></i> Referral Bonus</span></div></div></div>
+                    <div class="info-card animate-in d5"><div class="info-card-header"><i class="fab fa-whatsapp"></i><h3>WhatsApp Channel</h3></div><div class="info-card-body wa-card"><div class="wa-icon"><i class="fab fa-whatsapp"></i></div><div class="wa-title">Join Finvexa Updates</div><div class="wa-desc">Join our WhatsApp channel to get instant notifications for every update, new plan and offer.</div><a href="https://whatsapp.com/channel/0029VbCXnui2f3EPRt7YWT0f" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> Join Channel</a></div></div>
+                </div>
+            </div>
+
+            <!-- Packages -->
+            <div class="page-view" id="page-packages">
+                <div class="packages-page-header animate-in"><div class="packages-page-title">Investment Packages</div><div class="packages-page-sub">Choose a plan that suits your budget — starting from PKR 20</div></div>
+                <div class="packages-grid" id="packagesGrid"></div>
+            </div>
+
+            <!-- Buy Method -->
+            <div class="page-view" id="page-buy-method">
+                <div class="buy-method-wrap animate-in">
+                    <button class="back-btn" onclick="navigateTo('packages')"><i class="fas fa-arrow-left"></i> Back to Packages</button>
+                    <div class="buy-method-title">Select Payment Method</div>
+                    <div class="buy-method-sub">Choose how you want to pay for the selected package</div>
+                    <div class="buy-selected-plan"><div><div class="plan-label">Selected Plan</div><div class="plan-info" id="buyMethodPlanName">-</div></div><div class="plan-price" id="buyMethodPlanPrice">-</div></div>
+                    <div class="method-card" onclick="navigateTo('buy-payment')"><div class="method-icon" style="background:var(--easypaisa-light)"><i class="fas fa-mobile-alt" style="color:var(--easypaisa)"></i></div><div class="method-name">Easypaisa</div><div class="method-flag">🇵🇰 Pakistan</div><div class="method-arrow"><i class="fas fa-arrow-right"></i></div></div>
+                </div>
+            </div>
+
+            <!-- Buy Payment -->
+            <div class="page-view" id="page-buy-payment">
+                <div class="buy-payment-wrap animate-in">
+                    <button class="back-btn" onclick="navigateTo('buy-method')"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="buy-method-title">Complete Payment</div>
+                    <div class="buy-method-sub">Send payment to the account below and fill the form</div>
+                    <div class="buy-selected-plan"><div><div class="plan-label">Selected Plan</div><div class="plan-info" id="buyPayPlanName">-</div></div><div class="plan-price" id="buyPayPlanPrice">-</div></div>
+                    <div class="payment-details-card">
+                        <div class="payment-details-header"><i class="fas fa-mobile-alt"></i><span>Easypaisa 🇵🇰</span></div>
+                        <div class="payment-details-body">
+                            <div class="payment-row"><span class="payment-row-label">Account Name</span><span class="payment-row-value">TAUFEEQ AHMED <button class="copy-sm" onclick="copyText('TAUFEEQ AHMED')"><i class="fas fa-copy"></i></button></span></div>
+                            <div class="payment-row"><span class="payment-row-label">Account Number</span><span class="payment-row-value">03262550724 <button class="copy-sm" onclick="copyText('03262550724')"><i class="fas fa-copy"></i></button></span></div>
+                        </div>
+                    </div>
+                    <div class="payment-instructions"><i class="fas fa-exclamation-triangle"></i><p>Send the exact package amount to the above Easypaisa account. After payment, enter your Transaction ID and upload the payment screenshot below.</p></div>
+                    <div class="payment-form-card">
+                        <div class="payment-form-title"><i class="fas fa-edit"></i> Submit Deposit Request</div>
+                        <div class="form-group"><label class="form-label">Transaction ID</label><div class="form-input-wrap"><input type="text" class="form-input" id="payTxId" placeholder="Enter your Easypaisa Transaction ID"><i class="fas fa-receipt"></i></div><div class="form-error" id="payTxIdErr"></div></div>
+                        <div class="form-group">
+                            <label class="form-label">Payment Screenshot</label>
+                            <div class="upload-area" id="uploadArea"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*"></div>
+                            <div class="form-error" id="payScreenshotErr"></div>
+                        </div>
+                        <button class="confirm-btn" id="confirmPayBtn" onclick="submitDeposit()"><span class="btn-text"><i class="fas fa-paper-plane"></i> Confirm Deposit Request</span><div class="spinner"></div></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet -->
+            <div class="page-view" id="page-wallet">
+                <div class="wallet-balance-card animate-in">
+                    <div class="wallet-balance-label"><i class="fas fa-wallet"></i> Available Balance</div>
+                    <div class="wallet-balance-amount"><span class="cur">PKR</span> <span id="walletBalance">0</span></div>
+                    <div class="wallet-actions">
+                        <button class="wallet-action-btn primary" onclick="navigateTo('withdraw-method')"><i class="fas fa-arrow-up"></i> Withdraw</button>
+                    </div>
+                </div>
+                <div class="info-card animate-in d1"><div class="info-card-header"><i class="fas fa-info-circle"></i><h3>Withdrawal Info</h3></div><div class="info-card-body"><p class="about-text">Minimum withdrawal amount is <strong>PKR 5</strong>. Withdrawals are processed within 24 hours. You can withdraw via Easypaisa, JazzCash, NayaPay, SadaPay, Upaisa, or Bank Transfer. Make sure your account details are correct before submitting.</p></div></div>
+            </div>
+
+            <!-- Withdraw Method -->
+            <div class="page-view" id="page-withdraw-method">
+                <div class="buy-method-wrap animate-in">
+                    <button class="back-btn" onclick="navigateTo('wallet')"><i class="fas fa-arrow-left"></i> Back to Wallet</button>
+                    <div class="buy-method-title">Select Withdrawal Method</div>
+                    <div class="buy-method-sub">Choose where you want to receive your funds</div>
+                    <div class="withdraw-methods-grid" id="withdrawMethodsGrid"></div>
+                </div>
+            </div>
+
+            <!-- Withdraw Form -->
+            <div class="page-view" id="page-withdraw-form">
+                <div class="withdraw-form-wrap animate-in">
+                    <button class="back-btn" onclick="navigateTo('withdraw-method')"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="buy-method-title">Withdraw Funds</div>
+                    <div class="buy-method-sub">Enter your account details and withdrawal amount</div>
+                    <div class="withdraw-selected-method" id="withdrawSelectedMethod" style="background:var(--bg);border:1px solid var(--border)"><div class="wsm-icon" id="wsmIcon"><i class="fas fa-mobile-alt"></i></div><div><div class="wsm-name" id="wsmName">Easypaisa</div><div class="withdraw-available">Available: <span id="wsmAvailable">PKR 0</span></div></div></div>
+                    <div class="payment-form-card">
+                        <div class="payment-form-title"><i class="fas fa-edit"></i> Withdrawal Details</div>
+                        <div class="form-group"><label class="form-label">Account Name</label><div class="form-input-wrap"><input type="text" class="form-input" id="wdAccountName" placeholder="Enter account holder name"><i class="fas fa-user"></i></div><div class="form-error" id="wdNameErr"></div></div>
+                        <div class="form-group"><label class="form-label">Account Number</label><div class="form-input-wrap"><input type="text" class="form-input" id="wdAccountNumber" placeholder="Enter account number"><i class="fas fa-hashtag"></i></div><div class="form-error" id="wdNumErr"></div></div>
+                        <div class="form-group">
+                            <label class="form-label">Withdrawal Amount (PKR)</label>
+                            <div class="amount-input-wrap"><span class="amount-prefix">PKR</span><input type="number" class="form-input no-icon" id="wdAmount" placeholder="0" min="5"></div>
+                            <div class="amount-hint">Minimum withdrawal: <span>PKR 5</span></div>
+                            <div class="form-error" id="wdAmountErr"></div>
+                        </div>
+                        <button class="withdraw-btn" id="withdrawBtn" onclick="submitWithdrawal()" style="background:var(--primary)"><span class="btn-text"><i class="fas fa-paper-plane"></i> Submit Withdrawal Request</span><div class="spinner"></div></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions -->
+            <div class="page-view" id="page-transactions">
+                <div class="tx-page-header animate-in"><div class="tx-page-title">Transactions</div><div class="tx-page-sub">Track all your deposits and withdrawals</div></div>
+                <div class="tx-tabs animate-in d1">
+                    <button class="tx-tab active" onclick="filterTx('all',this)">All</button>
+                    <button class="tx-tab" onclick="filterTx('deposit',this)">Deposits</button>
+                    <button class="tx-tab" onclick="filterTx('withdrawal',this)">Withdrawals</button>
+                </div>
+                <div class="tx-list" id="txList"><div class="empty-state"><i class="fas fa-inbox"></i><h3>No Transactions Yet</h3><p>Your transactions will appear here.</p></div></div>
+            </div>
+
+            <!-- Tasks -->
+            <div class="page-view" id="page-tasks">
+                <div class="task-page-header animate-in"><div class="task-page-title">Daily Earning Tasks</div><div class="task-page-sub">Claim your daily earnings from active packages — once every 24 hours</div></div>
+                <div class="task-grid" id="taskGrid"><div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Tasks will appear here once your package deposit is approved.</p></div></div>
+            </div>
+
+            <!-- Referral -->
+            <div class="page-view" id="page-referral">
+                <div class="packages-page-header animate-in"><div class="packages-page-title">Referral Program</div><div class="packages-page-sub">Earn 15% commission when your friends activate a package</div></div>
+                
+                <div class="info-card animate-in d1">
+                    <div class="info-card-header"><i class="fas fa-link"></i><h3>Your Referral Link</h3></div>
+                    <div class="info-card-body">
+                        <p class="about-text">Share this link with your friends. When they sign up using your link and activate a package, you will receive a <strong>15% commission</strong> directly to your balance.</p>
+                        <div class="referral-link-box">
+                            <span class="referral-link-text" id="refLinkText">Loading...</span>
+                            <button class="contact-action" onclick="copyText(document.getElementById('refLinkText').innerText)"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card animate-in d2" style="margin-top:18px">
+                    <div class="info-card-header"><i class="fas fa-users"></i><h3>Team Statistics</h3></div>
+                    <div class="info-card-body">
+                        <div class="referral-stats-grid">
+                            <div class="rstat-card">
+                                <div class="rstat-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-users"></i></div>
+                                <div class="rstat-value" id="refTeamSize">0</div>
+                                <div class="rstat-label">Total Team</div>
+                            </div>
+                            <div class="rstat-card">
+                                <div class="rstat-icon" style="background:var(--success-light);color:var(--success)"><i class="fas fa-hand-holding-usd"></i></div>
+                                <div class="rstat-value" id="refTeamInvestment">0</div>
+                                <div class="rstat-label">Team Investment</div>
+                            </div>
+                            <div class="rstat-card">
+                                <div class="rstat-icon" style="background:var(--warning-light);color:var(--warning)"><i class="fas fa-coins"></i></div>
+                                <div class="rstat-value" id="refTeamEarnings">0</div>
+                                <div class="rstat-label">Team Earnings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card animate-in d3" style="margin-top:18px">
+                    <div class="info-card-header"><i class="fas fa-user-friends"></i><h3>Your Team Members</h3></div>
+                    <div class="info-card-body" id="refTeamList">
+                        <div class="empty-state" style="padding:20px"><i class="fas fa-users-slash"></i><h3>No Team Members Yet</h3><p>Share your link to start building your team!</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div class="page-view" id="page-support">
+                <div class="packages-page-header animate-in"><div class="packages-page-title">Support</div><div class="packages-page-sub">Contact our admin team for help and assistance</div></div>
+                <div class="info-card animate-in d1"><div class="info-card-header"><i class="fas fa-user-tie"></i><h3>Admin Contact</h3></div><div class="info-card-body"><div class="contact-grid"><div class="contact-item"><div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-envelope"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Email Address</div><div class="contact-detail-value">wmaker552@gmail.com</div></div><button class="contact-action" onclick="copyText('wmaker552@gmail.com')"><i class="fas fa-copy"></i></button></div><div class="contact-item"><div class="contact-icon" style="background:#dcfce7;color:#25d366"><i class="fab fa-whatsapp"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">WhatsApp Number</div><div class="contact-detail-value">03433335691</div></div><button class="contact-action" onclick="copyText('03433335691')"><i class="fas fa-copy"></i></button></div></div><div style="text-align:center;margin-top:24px"><a href="https://wa.me/923433335691" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> Message on WhatsApp</a></div></div></div>
+            </div>
+
+            <!-- Profile -->
+            <div class="page-view" id="page-profile">
+                <div class="packages-page-header animate-in"><div class="packages-page-title">Profile</div><div class="packages-page-sub">Your account details</div></div>
+                <div class="info-card animate-in d1"><div class="info-card-body" style="text-align:center;padding:40px 22px"><div class="profile-avatar-lg" id="profileAvatar">?</div><div class="profile-name" id="profileName">-</div><div class="profile-role">Member</div></div></div>
+                <div class="info-card animate-in d2" style="margin-top:16px"><div class="info-card-header"><i class="fas fa-id-card"></i><h3>Account Details</h3></div><div class="info-card-body"><div class="contact-grid"><div class="contact-item"><div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-user"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Username</div><div class="contact-detail-value" id="profileUsername">-</div></div></div><div class="contact-item"><div class="contact-icon" style="background:#dcfce7;color:#25d366"><i class="fas fa-phone"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Phone Number</div><div class="contact-detail-value" id="profilePhone">-</div></div></div><div class="contact-item"><div class="contact-icon" style="background:var(--warning-light);color:var(--warning)"><i class="fas fa-calendar-alt"></i></div><div style="flex:1;min-width:0"><div class="contact-detail-label">Joined On</div><div class="contact-detail-value" id="profileJoined">-</div></div></div></div></div></div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Screenshot Modal -->
+<div class="modal-overlay" id="screenshotModal">
+    <div class="modal-content">
+        <div class="modal-header"><h3>Payment Screenshot</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body"><img id="modalImg" src="" alt="Screenshot"></div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+// Check for Referral Parameter in URL on page load
+var urlParams = new URLSearchParams(window.location.search);
+var refParam = urlParams.get('ref');
+if (refParam) {
+    localStorage.setItem('finvexaRefCode', refParam.toLowerCase());
+    // Clean the URL without reloading
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+var firebaseConfig={apiKey:"AIzaSyBapeJ4v7gy6ja3iHMnr6xbIBVcmqV3nT8",authDomain:"watbuy-ffd8a.firebaseapp.com",projectId:"watbuy-ffd8a",storageBucket:"watbuy-ffd8a.firebasestorage.app",messagingSenderId:"180313348083",appId:"1:180313348083:web:df60f9130d3bd9ecb12486"};
+firebase.initializeApp(firebaseConfig);
+var auth=firebase.auth(),db=firebase.database();
+
+var packageData=[
+    {name:'Starter',price:20,daily:2,total:60,ret:'200%',support:'Basic Support'},
+    {name:'Micro',price:50,daily:5,total:150,ret:'200%',support:'Basic Support'},
+    {name:'Bronze',price:100,daily:8,total:240,ret:'240%',support:'Basic Support'},
+    {name:'Basic',price:250,daily:20,total:600,ret:'240%',support:'Basic Support'},
+    {name:'Silver',price:500,daily:35,total:1050,ret:'210%',support:'Priority Support'},
+    {name:'Standard',price:1000,daily:65,total:1950,ret:'195%',support:'Priority Support'},
+    {name:'Gold',price:2000,daily:140,total:4200,ret:'210%',support:'VIP Support'},
+    {name:'Platinum',price:3500,daily:245,total:7350,ret:'210%',support:'VIP Support'},
+    {name:'Diamond',price:5000,daily:375,total:11250,ret:'225%',support:'VIP Support'},
+    {name:'Elite',price:8000,daily:640,total:19200,ret:'240%',support:'VIP Support'},
+    {name:'Executive',price:12000,daily:1020,total:30600,ret:'255%',support:'Dedicated Manager'},
+    {name:'Premium',price:18000,daily:1620,total:48600,ret:'270%',support:'Dedicated Manager'},
+    {name:'Royal',price:25000,daily:2375,total:71250,ret:'285%',support:'Dedicated Manager'},
+    {name:'Ultra',price:35000,daily:3500,total:105000,ret:'300%',support:'Dedicated Manager'},
+    {name:'VIP',price:50000,daily:5250,total:157500,ret:'315%',support:'Dedicated Manager'}
+];
+
+var withdrawMethods=[
+    {id:'easypaisa',name:'Easypaisa',icon:'fas fa-mobile-alt',color:'var(--easypaisa)',colorLight:'var(--easypaisa-light)'},
+    {id:'jazzcash',name:'JazzCash',icon:'fas fa-mobile-alt',color:'var(--jazzcash)',colorLight:'var(--jazzcash-light)'},
+    {id:'nayapay',name:'NayaPay',icon:'fas fa-mobile-alt',color:'var(--nayapay)',colorLight:'var(--nayapay-light)'},
+    {id:'sadapay',name:'SadaPay',icon:'fas fa-mobile-alt',color:'var(--sadapay)',colorLight:'var(--sadapay-light)'},
+    {id:'upaisa',name:'Upaisa',icon:'fas fa-mobile-alt',color:'var(--upaisa)',colorLight:'var(--upaisa-light)'},
+    {id:'bank',name:'Bank Transfer',icon:'fas fa-university',color:'var(--bank)',colorLight:'var(--bank-light)'}
+];
+
+var currentUser=null,currentUserData=null,selectedPkg=null,screenshotBase64=null,selectedWdMethod=null;
+var cachedDeposits=null,cachedWithdrawals=null,currentTxFilter='all',tasksData=null;
+
+function normalizePhone(p){var c=p.replace(/[^0-9]/g,'');if(c.startsWith('0')&&c.length>=11)c='92'+c.substring(1);if(!c.startsWith('92'))c='92'+c;return c}
+function phoneToEmail(p){return normalizePhone(p)+'@finvexa.pk'}
+function formatPhone(p){var c=normalizePhone(p);return '+92 '+c.substring(2,5)+' '+c.substring(5)}
+function formatNum(n){return Number(n||0).toLocaleString()}
+function formatDate(ts){if(!ts)return'-';var d=new Date(ts);var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function formatFullDate(ts){if(!ts)return'-';var d=new Date(ts);var months=['January','February','March','April','May','June','July','August','September','October','November','December'];var h=d.getHours();var m=String(d.getMinutes()).padStart(2,'0');var ampm=h>=12?'PM':'AM';h=h%12;if(h===0)h=12;return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear()+', '+h+':'+m+' '+ampm}
+function showErr(id,msg){var el=document.getElementById(id);if(el){el.textContent=msg;el.classList.add('show')}}
+function clearErr(id){var el=document.getElementById(id);if(el){el.textContent='';el.classList.remove('show')}}
+function clearAllErr(){document.querySelectorAll('.form-error').forEach(function(e){e.textContent='';e.classList.remove('show')})}
+function getPkgInfo(name){for(var i=0;i<packageData.length;i++){if(packageData[i].name===name)return packageData[i]}return null}
+
+function showToast(title,msg,type){
+    type=type||'success';var icons={success:'fa-check',error:'fa-times',info:'fa-info'};
+    var c=document.getElementById('toastContainer');var t=document.createElement('div');
+    t.className='toast '+type;
+    t.innerHTML='<div class="toast-icon"><i class="fas '+icons[type]+'"></i></div><div class="toast-body"><div class="toast-title">'+title+'</div><div class="toast-msg">'+msg+'</div></div><button class="toast-close" onclick="dismissToast(this)"><i class="fas fa-times"></i></button><div class="toast-progress"></div>';
+    c.appendChild(t);setTimeout(function(){dismissToast(t.querySelector('.toast-close'))},3500);
+}
+function dismissToast(btn){var t=btn.closest('.toast');if(!t||t.classList.contains('leaving'))return;t.classList.add('leaving');setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},350)}
+
+function showPage(page){
+    clearAllErr();
+    document.getElementById('loginPage').style.display=page==='login'?'block':'none';
+    document.getElementById('signupPage').style.display=page==='signup'?'block':'none';
+    document.getElementById('forgotPage').style.display=page==='forgot'?'block':'none';
+}
+
+function handleSignup(){
+    clearAllErr();var name=document.getElementById('signupName').value.trim();var phone=document.getElementById('signupPhone').value.trim();var pass=document.getElementById('signupPass').value;var confirm=document.getElementById('signupConfirm').value;var valid=true;
+    if(!name||name.length<3){showErr('signupNameErr','Username must be at least 3 characters');valid=false}
+    if(!phone||normalizePhone(phone).length<12){showErr('signupPhoneErr','Enter a valid Pakistani phone number');valid=false}
+    if(!pass||pass.length<6){showErr('signupPassErr','Password must be at least 6 characters');valid=false}
+    if(pass!==confirm){showErr('signupConfirmErr','Passwords do not match');valid=false}
+    if(!valid)return;
+    
+    var btn=document.getElementById('signupBtn');btn.classList.add('loading');var email=phoneToEmail(phone);
+    var refCode = localStorage.getItem('finvexaRefCode') || '';
+    var refUid = null;
+
+    var lookupPromise = Promise.resolve();
+    // If there's a referral code, find the referrer's UID first
+    if(refCode) {
+        lookupPromise = db.ref('usernames/'+refCode.toLowerCase()).once('value').then(function(snap){
+            if(snap.exists()) refUid = snap.val();
+        });
+    }
+
+    lookupPromise.then(function(){
+        return db.ref('usernames/'+name.toLowerCase()).once('value');
+    }).then(function(usernameSnap){
+        if(usernameSnap.exists()) {
+            btn.classList.remove('loading');
+            showErr('signupNameErr', 'This username is already taken');
+            throw new Error('username_taken');
+        }
+        return auth.createUserWithEmailAndPassword(email,pass);
+    }).then(function(cred){
+        var updates = {};
+        updates['users/'+cred.user.uid] = {
+            username: name,
+            phone: formatPhone(phone),
+            phoneRaw: normalizePhone(phone),
+            totalBalance: 0,
+            totalInvestment: 0,
+            totalEarnings: 0,
+            activePackages: 0,
+            teamSize: 0,
+            teamInvestment: 0,
+            teamEarnings: 0,
+            referredBy: refCode.toLowerCase(),
+            createdAt: Date.now()
+        };
+        updates['usernames/'+name.toLowerCase()] = cred.user.uid;
+
+        // Update Referrer Data if exists
+        if(refUid) {
+            updates['users/'+refUid+'/teamSize'] = firebase.database.ServerValue.increment(1);
+            updates['users/'+refUid+'/referrals/'+cred.user.uid] = true;
+            updates['users/'+refUid+'/referralDetails/'+cred.user.uid] = name;
+        }
+
+        return db.ref().update(updates);
+    }).then(function(){
+        btn.classList.remove('loading');
+        localStorage.removeItem('finvexaRefCode');
+        showToast('Welcome!','Account created successfully.','success');
+    }).catch(function(err){
+        if(err.message === 'username_taken') return;
+        btn.classList.remove('loading');var code=err.code||'';
+        if(code.indexOf('email-already')>-1)showErr('signupPhoneErr','This phone number is already registered');
+        else if(code.indexOf('weak-password')>-1)showErr('signupPassErr','Password is too weak');
+        else showToast('Error',err.message,'error');
+    });
+}
+
+function handleLogin(){
+    clearAllErr();var phone=document.getElementById('loginPhone').value.trim();var pass=document.getElementById('loginPass').value;var valid=true;
+    if(!phone||normalizePhone(phone).length<12){showErr('loginPhoneErr','Enter a valid Pakistani phone number');valid=false}
+    if(!pass){showErr('loginPassErr','Enter your password');valid=false}
+    if(!valid)return;
+    var btn=document.getElementById('loginBtn');btn.classList.add('loading');var email=phoneToEmail(phone);
+    auth.signInWithEmailAndPassword(email,pass).then(function(){btn.classList.remove('loading');showToast('Welcome back!','Signed in successfully.','success')}).catch(function(err){
+        btn.classList.remove('loading');var code=err.code||'';
+        if(code.indexOf('invalid-credential')>-1||code.indexOf('wrong-password')>-1||code.indexOf('user-not-found')>-1)showErr('loginPassErr','Invalid phone number or password');
+        else if(code.indexOf('too-many')>-1)showToast('Blocked','Too many attempts. Try again later.','error');
+        else showToast('Error',err.message,'error');
+    });
+}
+
+function generatePackageCards(){
+    var grid=document.getElementById('packagesGrid');grid.innerHTML='';
+    packageData.forEach(function(pkg,i){
+        var card=document.createElement('div');card.className='pkg-card animate-in d'+(Math.min(i+1,15));
+        card.innerHTML='<div class="pkg-badge">Best Value</div><div class="pkg-name">'+pkg.name+'</div><div class="pkg-duration">30 Days</div><div class="pkg-price">PKR '+formatNum(pkg.price)+'</div><div class="pkg-divider"></div><ul class="pkg-features"><li><i class="fas fa-check-circle"></i> Daily PKR '+formatNum(pkg.daily)+'</li><li><i class="fas fa-check-circle"></i> Total: PKR '+formatNum(pkg.total)+'</li><li><i class="fas fa-check-circle"></i> '+pkg.ret+' Return</li><li><i class="fas fa-check-circle"></i> '+pkg.support+'</li></ul><button class="pkg-btn" onclick="buyPkg(\''+pkg.name+'\')">Buy</button>';
+        grid.appendChild(card);
+    });
+}
+generatePackageCards();
+
+function generateWithdrawMethods(){
+    var grid=document.getElementById('withdrawMethodsGrid');grid.innerHTML='';
+    withdrawMethods.forEach(function(m,i){
+        var card=document.createElement('div');card.className='wmethod-card animate-in d'+(i+1);
+        card.style.borderColor='var(--border)';
+        card.setAttribute('data-method',m.id);
+        card.innerHTML='<div class="wmethod-icon" style="background:'+m.colorLight+'"><i class="'+m.icon+'" style="color:'+m.color+'"></i></div><div class="wmethod-name">'+m.name+'</div><div class="wmethod-arrow"><i class="fas fa-arrow-right"></i></div>';
+        card.addEventListener('mouseenter',function(){this.style.borderColor=m.color});
+        card.addEventListener('mouseleave',function(){this.style.borderColor='var(--border)'});
+        card.addEventListener('click',function(){selectWithdrawMethod(m.id)});
+        grid.appendChild(card);
+    });
+}
+generateWithdrawMethods();
+
+auth.onAuthStateChanged(function(user){
+    var loading=document.getElementById('loadingScreen');
+    if(user){
+        currentUser=user;
+        document.getElementById('authWrapper').style.display='none';
+        document.getElementById('appWrapper').style.display='block';
+        setupListeners(user.uid);
+    }else{
+        currentUser=null;cleanupListeners();cachedDeposits=null;cachedWithdrawals=null;tasksData=null;
+        document.getElementById('authWrapper').style.display='flex';
+        document.getElementById('appWrapper').style.display='none';
+        
+        // Automatically show Signup Page if referral link is pending in localStorage
+        if (localStorage.getItem('finvexaRefCode')) {
+            showPage('signup');
+        } else {
+            showPage('login');
+        }
+    }
+    loading.classList.add('hide');setTimeout(function(){loading.style.display='none'},500);
+});
+
+var depCb=null,wdCb=null,taskCb=null,userCb=null,refCb=null;
+
+function setupListeners(uid){
+    userCb=db.ref('users/'+uid).on('value',function(snap){
+        currentUserData=snap.val();
+        updateUI();
+    });
+    depCb=function(snap){
+        cachedDeposits=snap.val();
+        if(cachedDeposits){
+            Object.keys(cachedDeposits).forEach(function(depId){
+                var dep=cachedDeposits[depId];
+                if(dep.status==='success'&&!dep.processed){
+                    processApprovedDeposit(uid,depId,dep);
+                }
+            });
+        }
+        renderAllTransactions();
+    };
+    db.ref('deposits/'+uid).on('value',depCb);
+    wdCb=function(snap){
+        cachedWithdrawals=snap.val();
+        if(cachedWithdrawals){
+            Object.keys(cachedWithdrawals).forEach(function(wId){
+                var w=cachedWithdrawals[wId];
+                if(w.status==='rejected'&&!w.refunded){
+                    processRejectedWithdrawal(uid,wId,w);
+                }
+            });
+        }
+        renderAllTransactions();
+    };
+    db.ref('withdrawals/'+uid).on('value',wdCb);
+    taskCb=function(snap){
+        tasksData=snap.val();
+        renderTasks(tasksData);
+        updateUI();
+    };
+    db.ref('tasks/'+uid).on('value',taskCb);
+    
+    // Listen for Referral Team Members
+    refCb=function(snap){
+        renderReferralTeam(snap.val());
+    };
+    db.ref('users/'+uid+'/referralDetails').on('value',refCb);
+}
+
+function cleanupListeners(){
+    if(currentUser){
+        if(userCb)db.ref('users/'+currentUser.uid).off('value',userCb);
+        if(depCb)db.ref('deposits/'+currentUser.uid).off('value',depCb);
+        if(wdCb)db.ref('withdrawals/'+currentUser.uid).off('value',wdCb);
+        if(taskCb)db.ref('tasks/'+currentUser.uid).off('value',taskCb);
+        if(refCb)db.ref('users/'+currentUser.uid+'/referralDetails').off('value',refCb);
+    }
+    userCb=null;depCb=null;wdCb=null;taskCb=null;refCb=null;
+}
+
+function renderReferralTeam(data) {
+    var listEl = document.getElementById('refTeamList');
+    if(!data) {
+        listEl.innerHTML = '<div class="empty-state" style="padding:20px"><i class="fas fa-users-slash"></i><h3>No Team Members Yet</h3><p>Share your link to start building your team!</p></div>';
+        return;
+    }
+    var html = '<div class="contact-grid">';
+    Object.keys(data).forEach(function(uid) {
+        var uname = data[uid];
+        html += '<div class="contact-item">';
+        html += '<div class="contact-icon" style="background:var(--primary-light);color:var(--primary)"><i class="fas fa-user"></i></div>';
+        html += '<div style="flex:1;min-width:0"><div class="contact-detail-value">'+uname+'</div><div class="contact-detail-label">Team Member</div></div>';
+        html += '</div>';
+    });
+    html += '</div>';
+    listEl.innerHTML = html;
+}
+
+function updateUI(){
+    if(!currentUserData)return;
+    var n=currentUserData.username||'User';
+    document.getElementById('welcomeText').textContent='Welcome back, '+n;
+    document.getElementById('sidebarName').textContent=n;
+    document.getElementById('sidebarAvatar').textContent=n.charAt(0).toUpperCase();
+    var bal=formatNum(currentUserData.totalBalance);
+    var inv=formatNum(currentUserData.totalInvestment);
+    var ear=formatNum(currentUserData.totalEarnings);
+    
+    // Referral Link Setup
+    var baseUrl = window.location.origin + window.location.pathname;
+    var refLink = baseUrl + '?ref=' + n.toLowerCase();
+    document.getElementById('refLinkText').textContent = refLink;
+    document.getElementById('refTeamSize').textContent = currentUserData.teamSize || 0;
+    document.getElementById('refTeamInvestment').textContent = formatNum(currentUserData.teamInvestment || 0);
+    document.getElementById('refTeamEarnings').textContent = formatNum(currentUserData.teamEarnings || 0);
+    
+    var activePkgCount=0;
+    var now=Date.now();
+    if(tasksData){
+        Object.keys(tasksData).forEach(function(k){
+            var t=tasksData[k];
+            if(t.status==='active'&&(!t.expiresAt||now<t.expiresAt)&&t.totalClaimed<t.totalDays){
+                activePkgCount++;
+            }
+        });
+    }
+    document.getElementById('dashBalance').textContent=bal;
+    document.getElementById('dashInvestment').textContent=inv;
+    document.getElementById('dashEarnings').textContent=ear;
+    document.getElementById('dashPackages').textContent=activePkgCount;
+    document.getElementById('walletBalance').textContent=bal;
+    document.getElementById('wsmAvailable').textContent='PKR '+bal;
+    document.getElementById('profileAvatar').textContent=n.charAt(0).toUpperCase();
+    document.getElementById('profileName').textContent=n;
+    document.getElementById('profileUsername').textContent=n;
+    document.getElementById('profilePhone').textContent=currentUserData.phone||'-';
+    document.getElementById('profileJoined').textContent=currentUserData.createdAt?formatFullDate(currentUserData.createdAt):'-';
+}
+
+function processApprovedDeposit(uid, depId, dep){
+    var pkgInfo=getPkgInfo(dep.planName);
+    if(!pkgInfo){db.ref('deposits/'+uid+'/'+depId+'/processed').set(true);return}
+    
+    db.ref('tasks/'+uid+'/'+depId).once('value',function(taskSnap){
+        var updates={};
+        updates['deposits/'+uid+'/'+depId+'/processed']=true;
+        
+        if(!taskSnap.exists()){
+            var now=Date.now();
+            updates['tasks/'+uid+'/'+depId]={
+                planName:dep.planName,
+                planPrice:dep.planPrice,
+                dailyEarning:pkgInfo.daily,
+                lastClaim:0,
+                totalClaimed:0,
+                totalDays:30,
+                status:'active',
+                createdAt:now,
+                expiresAt:now+30*24*60*60*1000
+            };
+            
+            var userUpdates = {};
+            userUpdates['users/'+uid+'/activePackages'] = firebase.database.ServerValue.increment(1);
+            userUpdates['users/'+uid+'/totalInvestment'] = firebase.database.ServerValue.increment(dep.planPrice);
+            
+            db.ref().update(updates).then(function(){
+                db.ref().update(userUpdates).then(function(){
+                    showToast('Package Activated!',dep.planName+' is now active for 30 days. Claim daily earnings!','success');
+                    
+                    // Give 15% commission to the referrer
+                    db.ref('users/'+uid+'/referredBy').once('value', function(refSnap) {
+                        var referredBy = refSnap.val();
+                        if(referredBy) {
+                            db.ref('usernames/'+referredBy).once('value', function(uidSnap) {
+                                var refUid = uidSnap.val();
+                                if(refUid) {
+                                    var commission = dep.planPrice * 0.15;
+                                    var refUpdates = {};
+                                    refUpdates['users/'+refUid+'/totalBalance'] = firebase.database.ServerValue.increment(commission);
+                                    refUpdates['users/'+refUid+'/totalEarnings'] = firebase.database.ServerValue.increment(commission);
+                                    refUpdates['users/'+refUid+'/teamInvestment'] = firebase.database.ServerValue.increment(dep.planPrice);
+                                    refUpdates['users/'+refUid+'/teamEarnings'] = firebase.database.ServerValue.increment(commission);
+                                    
+                                    db.ref().update(refUpdates);
+                                }
+                            });
+                        }
+                    });
+                    
+                });
+            }).catch(function(err){console.error('Process deposit error:',err)});
+        } else {
+            db.ref().update(updates);
+        }
+    });
+}
+
+function processRejectedWithdrawal(uid,wId,w){
+    db.ref('users/'+uid+'/totalBalance').once('value',function(snap){
+        var curBal=snap.val()||0;
+        var updates={};
+        updates['withdrawals/'+uid+'/'+wId+'/refunded']=true;
+        updates['users/'+uid+'/totalBalance']=curBal+w.amount;
+        db.ref().update(updates).then(function(){
+            showToast('Refunded','PKR '+formatNum(w.amount)+' has been refunded to your balance.','info');
+        }).catch(function(err){console.error('Refund error:',err)});
+    });
+}
+
+function renderAllTransactions(){
+    var list=document.getElementById('txList');
+    var items=[];
+    if(cachedDeposits){Object.keys(cachedDeposits).forEach(function(depId){var d=cachedDeposits[depId];items.push({type:'deposit',id:depId,data:d,ts:d.createdAt||0})})}
+    if(cachedWithdrawals){Object.keys(cachedWithdrawals).forEach(function(wId){var w=cachedWithdrawals[wId];items.push({type:'withdrawal',id:wId,data:w,ts:w.createdAt||0})})}
+    if(currentTxFilter==='deposit')items=items.filter(function(i){return i.type==='deposit'});
+    if(currentTxFilter==='withdrawal')items=items.filter(function(i){return i.type==='withdrawal'});
+    items.sort(function(a,b){return b.ts-a.ts});
+    if(items.length===0){
+        var msg=currentTxFilter==='all'?'Your transactions will appear here.':currentTxFilter==='deposit'?'No deposit requests yet.':'No withdrawal requests yet.';
+        list.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><h3>No Transactions</h3><p>'+msg+'</p></div>';return;
+    }
+    var html='';
+    items.forEach(function(item){
+        if(item.type==='deposit'){
+            var d=item.data;var isP=d.status==='pending';var isS=d.status==='success';var isR=d.status==='rejected';
+            var statusClass=isP?'pending':isS?'success':'rejected';
+            var statusIcon=isP?'fa-spinner fa-spin':isS?'fa-check':'fa-times';
+            var statusText=isP?'Pending':isS?'Success':'Rejected';
+            html+='<div class="tx-card"><div class="tx-icon-wrap '+statusClass+'"><i class="fas '+statusIcon+'"></i></div><div class="tx-info"><div class="tx-plan">'+d.planName+' Package <span style="font-size:11px;color:var(--text-muted);font-weight:500">(Deposit)</span></div><div class="tx-id">TxID: <span>'+(d.transactionId||'-')+'</span></div><div class="tx-date">'+formatDate(d.createdAt)+'</div></div>'+(d.screenshot?'<button class="tx-screenshot-btn" onclick="viewScreenshot(\''+item.id+'\')" title="View Screenshot"><i class="fas fa-image"></i></button>':'')+'<div class="tx-right"><div class="tx-amount">PKR '+formatNum(d.planPrice)+'</div><div class="tx-status '+statusClass+'"><i class="fas '+statusIcon+'"></i> '+statusText+'</div></div></div>';
+        }else{
+            var w=item.data;var wIsP=w.status==='pending';var wIsS=w.status==='success';var wIsR=w.status==='rejected';
+            var wStatusClass=wIsP?'pending':wIsS?'success':'rejected';
+            var wStatusIcon=wIsP?'fa-spinner fa-spin':wIsS?'fa-check':'fa-times';
+            var wStatusText=wIsP?'Pending':wIsS?'Success':'Rejected';
+            var methodLabel=(w.methodName||w.method||'wallet');
+            html+='<div class="tx-card"><div class="tx-icon-wrap withdraw"><i class="fas fa-arrow-up"></i></div><div class="tx-info"><div class="tx-plan">Withdrawal <span style="font-size:11px;color:var(--text-muted);font-weight:500">('+methodLabel+')</span></div><div class="tx-id">Acc: <span>'+w.accountNumber+'</span></div><div class="tx-date">'+formatDate(w.createdAt)+'</div></div><div class="tx-right"><div class="tx-amount negative">- PKR '+formatNum(w.amount)+'</div><div class="tx-status '+wStatusClass+'"><i class="fas '+wStatusIcon+'"></i> '+wStatusText+'</div></div></div>';
+        }
+    });
+    list.innerHTML=html;
+}
+
+function filterTx(filter,btn){
+    currentTxFilter=filter;
+    document.querySelectorAll('.tx-tab').forEach(function(t){t.classList.remove('active')});
+    if(btn)btn.classList.add('active');
+    renderAllTransactions();
+}
+
+function viewScreenshot(depId){
+    if(!currentUser)return;
+    db.ref('deposits/'+currentUser.uid+'/'+depId+'/screenshot').once('value',function(snap){
+        var url=snap.val();
+        if(url){document.getElementById('modalImg').src=url;document.getElementById('screenshotModal').classList.add('active')}
+        else{showToast('Not Found','No screenshot available.','error')}
+    });
+}
+function closeModal(){document.getElementById('screenshotModal').classList.remove('active')}
+document.getElementById('screenshotModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+function renderTasks(data){
+    var grid=document.getElementById('taskGrid');
+    if(!data){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>';return}
+    var now=Date.now();
+    var visibleKeys=Object.keys(data).filter(function(k){
+        var t=data[k];
+        if(t.totalClaimed>=t.totalDays)return false;
+        if(t.expiresAt&&now>=t.expiresAt)return false;
+        return true;
+    });
+    if(visibleKeys.length===0){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clipboard-list"></i><h3>No Tasks Available</h3><p>Buy a package to start earning daily rewards.</p></div>';return}
+    var html='';
+    visibleKeys.forEach(function(k){
+        var t=data[k];
+        var elapsed=now-(t.lastClaim||0);var canClaim=elapsed>=86400000;
+        var remaining=Math.max(0,86400000-elapsed);
+        var progress=Math.min(100,(t.totalClaimed/t.totalDays)*100);
+        var hours=Math.floor(remaining/3600000);var mins=Math.floor((remaining%3600000)/60000);
+        html+='<div class="task-card"><div class="task-card-header"><div class="task-plan"><i class="fas fa-box-open"></i> '+t.planName+'</div><span class="task-badge active">Active</span></div><div class="task-card-body"><div class="task-stats"><div class="task-stat"><div class="task-stat-label">Daily Earning</div><div class="task-stat-value">PKR '+formatNum(t.dailyEarning)+'</div></div><div class="task-stat"><div class="task-stat-label">Days Claimed</div><div class="task-stat-value">'+t.totalClaimed+' / '+t.totalDays+'</div></div></div><div class="task-progress-wrap"><div class="task-progress-label"><span>Progress</span><span>'+Math.round(progress)+'%</span></div><div class="task-progress-bar"><div class="task-progress-fill" style="width:'+progress+'%"></div></div></div>';
+        if(canClaim){html+='<button class="task-claim-btn available" onclick="claimEarning(\''+k+'\')"><i class="fas fa-coins"></i> Claim PKR '+formatNum(t.dailyEarning)+'</button>';}
+        else{html+='<button class="task-claim-btn cooldown"><i class="fas fa-hourglass-half"></i> <span class="task-timer">Next claim in '+hours+'h '+mins+'m</span></button>';}
+        html+='</div></div>';
+    });
+    grid.innerHTML=html;
+}
+
+function claimEarning(taskId){
+    if(!currentUser)return;var uid=currentUser.uid;
+    db.ref('tasks/'+uid+'/'+taskId).once('value',function(snap){
+        var task=snap.val();if(!task)return;
+        var now=Date.now();var elapsed=now-(task.lastClaim||0);
+        if(elapsed<86400000){showToast('Wait','You can only claim once every 24 hours.','error');return}
+        if(task.totalClaimed>=task.totalDays){showToast('Done','This package is already completed.','info');return}
+        if(task.expiresAt&&now>=task.expiresAt){showToast('Expired','This package has expired. Buy a new one to continue earning.','info');return}
+        db.ref('users/'+uid+'/totalBalance').once('value',function(bSnap){
+            db.ref('users/'+uid+'/totalEarnings').once('value',function(eSnap){
+                var curBal=bSnap.val()||0;var curEarn=eSnap.val()||0;
+                var updates={};
+                updates['tasks/'+uid+'/'+taskId+'/lastClaim']=now;
+                updates['tasks/'+uid+'/'+taskId+'/totalClaimed']=task.totalClaimed+1;
+                if(task.totalClaimed+1>=task.totalDays)updates['tasks/'+uid+'/'+taskId+'/status']='completed';
+                updates['users/'+uid+'/totalBalance']=curBal+task.dailyEarning;
+                updates['users/'+uid+'/totalEarnings']=curEarn+task.dailyEarning;
+                db.ref().update(updates).then(function(){
+                    showToast('Claimed!','PKR '+formatNum(task.dailyEarning)+' added to your balance.','success');
+                }).catch(function(){showToast('Error','Could not claim. Try again.','error')});
+            });
+        });
+    });
+}
+
+document.getElementById('logoutBtn').addEventListener('click',function(e){
+    e.preventDefault();auth.signOut().then(function(){showToast('Logged Out','Signed out.','info')}).catch(function(){});
+});
+
+var hamburger=document.getElementById('hamburger'),sidebar=document.getElementById('sidebar'),overlay=document.getElementById('sidebarOverlay');
+function openSidebar(){sidebar.classList.add('open');overlay.classList.add('active');hamburger.classList.add('active');document.body.style.overflow='hidden'}
+function closeSidebar(){sidebar.classList.remove('open');overlay.classList.remove('active');hamburger.classList.remove('active');document.body.style.overflow=''}
+hamburger.addEventListener('click',function(){sidebar.classList.contains('open')?closeSidebar():openSidebar()});
+overlay.addEventListener('click',closeSidebar);
+
+function navigateTo(page){
+    document.querySelectorAll('.page-view').forEach(function(p){p.classList.remove('active')});
+    var target=document.getElementById('page-'+page);
+    if(target){target.classList.add('active');target.querySelectorAll('.animate-in').forEach(function(el){el.style.animation='none';el.offsetHeight;el.style.animation=''})}
+    document.querySelectorAll('.nav-item[data-page]').forEach(function(n){n.classList.remove('active')});
+    var navItem=document.querySelector('.nav-item[data-page="'+page+'"]');
+    if(navItem)navItem.classList.add('active');
+    var titles={dashboard:'Dashboard',packages:'Packages','buy-method':'Buy Package','buy-payment':'Complete Payment',transactions:'Transactions',tasks:'Tasks',wallet:'Wallet','withdraw-method':'Withdraw Method','withdraw-form':'Withdraw Funds',referral:'Referral Program',support:'Support',profile:'Profile'};
+    document.getElementById('topbarTitle').textContent=titles[page]||'Finvexa';
+    if(window.innerWidth<=768)closeSidebar();
+    window.scrollTo(0,0);
+}
+document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
+    item.addEventListener('click',function(e){e.preventDefault();navigateTo(this.getAttribute('data-page'))});
+});
+
+function buyPkg(name){
+    selectedPkg=getPkgInfo(name);if(!selectedPkg){showToast('Error','Package not found.','error');return}
+    document.getElementById('buyMethodPlanName').textContent=name+' Package';
+    document.getElementById('buyMethodPlanPrice').textContent='PKR '+formatNum(selectedPkg.price);
+    document.getElementById('buyPayPlanName').textContent=name+' Package';
+    document.getElementById('buyPayPlanPrice').textContent='PKR '+formatNum(selectedPkg.price);
+    document.getElementById('payTxId').value='';screenshotBase64=null;resetUploadArea();clearAllErr();
+    navigateTo('buy-method');
+}
+
+function initScreenshotUpload(){
+    var si=document.getElementById('screenshotInput');if(!si)return;
+    si.addEventListener('change',function(e){
+        var file=e.target.files[0];if(!file)return;
+        if(!file.type.startsWith('image/')){showErr('payScreenshotErr','Please select an image file.');si.value='';return}
+        if(file.size>5*1024*1024){showErr('payScreenshotErr','Image must be under 5MB.');si.value='';return}
+        clearErr('payScreenshotErr');
+        compressImage(file,function(base64){
+            screenshotBase64=base64;
+            var ua=document.getElementById('uploadArea');ua.classList.add('has-file');
+            ua.innerHTML='<img src="'+base64+'" class="upload-preview"><button type="button" class="upload-remove" onclick="removeScreenshot(event)"><i class="fas fa-times"></i></button><input type="file" id="screenshotInput" accept="image/*">';
+            initScreenshotUpload();
+        });
+    });
+}
+initScreenshotUpload();
+
+function compressImage(file,callback){
+    var reader=new FileReader();
+    reader.onload=function(e){var img=new Image();img.onload=function(){var canvas=document.createElement('canvas');var maxW=1200,maxH=1200;var w=img.width,h=img.height;if(w>maxW){h=h*maxW/w;w=maxW}if(h>maxH){w=w*maxH/h;h=maxH}canvas.width=w;canvas.height=h;var ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);callback(canvas.toDataURL('image/jpeg',0.8))};img.src=e.target.result};
+    reader.readAsDataURL(file);
+}
+function removeScreenshot(e){e.stopPropagation();e.preventDefault();screenshotBase64=null;resetUploadArea()}
+function resetUploadArea(){
+    var ua=document.getElementById('uploadArea');ua.classList.remove('has-file');
+    ua.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Drag & drop or <span class="browse">browse</span></p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">JPG, PNG — Max 5MB</p><input type="file" id="screenshotInput" accept="image/*">';
+    initScreenshotUpload();
+}
+
+function submitDeposit(){
+    clearErr('payTxIdErr');clearErr('payScreenshotErr');
+    var txId=document.getElementById('payTxId').value.trim();var valid=true;
+    if(!txId||txId.length<4){showErr('payTxIdErr','Enter a valid Transaction ID');valid=false}
+    if(!screenshotBase64){showErr('payScreenshotErr','Please upload payment screenshot');valid=false}
+    if(!valid)return;
+    if(!currentUser||!selectedPkg){showToast('Error','Session expired.','error');return}
+    var btn=document.getElementById('confirmPayBtn');btn.classList.add('loading');btn.disabled=true;
+    var username=currentUserData?(currentUserData.username||'User'):'User';
+    db.ref('deposits/'+currentUser.uid).push({
+        username:username,
+        planName:selectedPkg.name,
+        planPrice:selectedPkg.price,
+        transactionId:txId,
+        screenshot:screenshotBase64,
+        status:'pending',
+        processed:false,
+        createdAt:Date.now()
+    }).then(function(){
+        btn.classList.remove('loading');btn.disabled=false;
+        showToast('Submitted!','Deposit request sent for verification.','success');
+        navigateTo('transactions');
+    }).catch(function(err){btn.classList.remove('loading');btn.disabled=false;showToast('Error','Failed to submit. Try again.','error')});
+}
+
+function selectWithdrawMethod(methodId){
+    selectedWdMethod=withdrawMethods.find(function(m){return m.id===methodId});
+    if(!selectedWdMethod)return;
+    var iconEl=document.getElementById('wsmIcon');
+    iconEl.style.background=selectedWdMethod.colorLight;
+    iconEl.innerHTML='<i class="'+selectedWdMethod.icon+'" style="color:'+selectedWdMethod.color+'"></i>';
+    document.getElementById('wsmName').textContent=selectedWdMethod.name;
+    document.getElementById('wsmAvailable').textContent='PKR '+formatNum(currentUserData?(currentUserData.totalBalance||0):0);
+    document.getElementById('wdAccountName').value='';
+    document.getElementById('wdAccountNumber').value='';
+    document.getElementById('wdAmount').value='';
+    clearAllErr();
+    navigateTo('withdraw-form');
+}
+
+function submitWithdrawal(){
+    clearErr('wdNameErr');clearErr('wdNumErr');clearErr('wdAmountErr');
+    var name=document.getElementById('wdAccountName').value.trim();
+    var num=document.getElementById('wdAccountNumber').value.trim();
+    var amt=parseInt(document.getElementById('wdAmount').value);
+    var bal=currentUserData?(currentUserData.totalBalance||0):0;
+    var valid=true;
+    if(!name||name.length<3){showErr('wdNameErr','Enter a valid account name');valid=false}
+    if(!num||num.length<6){showErr('wdNumErr','Enter a valid account number');valid=false}
+    if(!amt||amt<5){showErr('wdAmountErr','Minimum withdrawal is PKR 5');valid=false}
+    else if(amt>bal){showErr('wdAmountErr','Insufficient balance. Available: PKR '+formatNum(bal));valid=false}
+    if(!valid)return;
+    if(!currentUser){showToast('Error','Session expired.','error');return}
+    var btn=document.getElementById('withdrawBtn');btn.classList.add('loading');btn.disabled=true;
+    var username=currentUserData?(currentUserData.username||'User'):'User';
+    var newWdRef=db.ref('withdrawals/'+currentUser.uid).push();
+    var updates={};
+    updates['withdrawals/'+currentUser.uid+'/'+newWdRef.key]={
+        username:username,
+        method:selectedWdMethod.id,
+        methodName:selectedWdMethod.name,
+        accountName:name,
+        accountNumber:num,
+        amount:amt,
+        status:'pending',
+        refunded:false,
+        createdAt:Date.now()
+    };
+    updates['users/'+currentUser.uid+'/totalBalance']=bal-amt;
+    db.ref().update(updates).then(function(){
+        btn.classList.remove('loading');btn.disabled=false;
+        showToast('Submitted!','Withdrawal request of PKR '+formatNum(amt)+' submitted.','success');
+        navigateTo('transactions');
+    }).catch(function(err){
+        btn.classList.remove('loading');btn.disabled=false;
+        showToast('Error','Failed to submit. Try again.','error');
+    });
+}
+
+function copyText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToast('Copied',text,'success')})}
+    else{var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('Copied',text,'success')}catch(e){showToast('Error','Could not copy.','error')}document.body.removeChild(ta)}
+}
+
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin()});
+document.getElementById('signupConfirm').addEventListener('keydown',function(e){if(e.key==='Enter')handleSignup()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('screenshotModal').classList.contains('active'))closeModal();else if(sidebar.classList.contains('open'))closeSidebar()}});
+window.addEventListener('resize',function(){if(window.innerWidth>768)closeSidebar()});
+</script>
+</body>
+</html>
