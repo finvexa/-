@@ -769,7 +769,7 @@ function handleSignup() {
         return auth.createUserWithEmailAndPassword(email, pass);
     }).then(function(cred) {
         var updates = {};
-        // FIX: Storing referrerUid directly to ensure commission works later
+        // Saving both referral code and Referrer UID for robustness
         updates['users/' + cred.user.uid] = {
             username: name,
             phone: formatPhone(phone),
@@ -782,7 +782,7 @@ function handleSignup() {
             teamInvestment: 0,
             teamEarnings: 0,
             referredBy: refCode.toLowerCase(),
-            referrerUid: refUid, // <--- IMPORTANT FIX: Storing Referrer's UID directly
+            referrerUid: refUid,
             createdAt: Date.now()
         };
         updates['usernames/' + name.toLowerCase()] = cred.user.uid;
@@ -1019,25 +1019,48 @@ function processApprovedDeposit(uid, depId, dep) {
         updates['users/' + uid + '/activePackages'] = firebase.database.ServerValue.increment(1);
         updates['users/' + uid + '/totalInvestment'] = firebase.database.ServerValue.increment(price);
 
-        // FIX: Direct Referral Logic
-        return db.ref('users/' + uid + '/referrerUid').once('value').then(function(refSnap) {
-            var referrerUid = refSnap.val();
-            
-            if (referrerUid) {
+        // --- FIXED ROBUST REFERRAL LOGIC ---
+        // 1. Try to get Referrer UID from user data first
+        var refUidPromise = db.ref('users/' + uid + '/referrerUid').once('value').then(function(snap) {
+            return snap.val();
+        });
+
+        // If UID is missing, fallback to username lookup
+        refUidPromise.then(function(referrerUid) {
+            if (!referrerUid) {
+                // Check if we have a referral code instead
+                return db.ref('users/' + uid + '/referredBy').once('value').then(function(codeSnap) {
+                    var refCode = codeSnap.val();
+                    if (refCode) {
+                        // Look up UID for this username
+                        return db.ref('usernames/' + refCode.toLowerCase()).once('value').then(function(uidSnap) {
+                            return uidSnap.val(); // Returns UID or null
+                        });
+                    }
+                    return null;
+                });
+            }
+            return referrerUid;
+        }).then(function(finalReferrerUid) {
+            if (finalReferrerUid) {
                 var commission = Math.round(price * 0.15);
                 if (commission > 0) {
-                    updates['users/' + referrerUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + referrerUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + referrerUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
-                    updates['users/' + referrerUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + finalReferrerUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + finalReferrerUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
+                    updates['users/' + finalReferrerUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
+                    updates['users/' + finalReferrerUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
+                    
+                    // Save the found UID back to the buyer to prevent future lookups
+                    updates['users/' + uid + '/referrerUid'] = finalReferrerUid;
                 }
             }
+            // Execute all updates in one transaction
             return db.ref().update(updates);
+        }).then(function() {
+            showToast('Package Activated!', dep.planName + ' is now active for 30 days. Claim daily earnings!', 'success');
+        }).catch(function(err) {
+            console.error('Deposit process error:', err);
         });
-    }).then(function() {
-        showToast('Package Activated!', dep.planName + ' is now active for 30 days. Claim daily earnings!', 'success');
-    }).catch(function(err) {
-        console.error('Process deposit error:', err);
     });
 }
 
