@@ -654,12 +654,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
+// --- GLOBAL VARIABLES ---
 var urlParams = new URLSearchParams(window.location.search);
-var refParam = urlParams.get('ref');
-if (refParam) {
-    localStorage.setItem('finvexaRefCode', refParam.toLowerCase());
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
+// CHANGE: Check for 'code' instead of 'ref'
+var refCodeParam = urlParams.get('code'); 
 
 var firebaseConfig = {
     apiKey: "AIzaSyBapeJ4v7gy6ja3iHMnr6xbIBVcmqV3nT8",
@@ -702,6 +700,7 @@ var withdrawMethods = [
 var currentUser = null, currentUserData = null, selectedPkg = null, screenshotBase64 = null, selectedWdMethod = null;
 var cachedDeposits = null, cachedWithdrawals = null, currentTxFilter = 'all', tasksData = null;
 
+// --- HELPERS ---
 function normalizePhone(p) { var c = p.replace(/[^0-9]/g, ''); if (c.startsWith('0') && c.length >= 11) c = '92' + c.substring(1); if (!c.startsWith('92')) c = '92' + c; return c; }
 function phoneToEmail(p) { return normalizePhone(p) + '@finvexa.pk'; }
 function formatPhone(p) { var c = normalizePhone(p); return '+92 ' + c.substring(2, 5) + ' ' + c.substring(5); }
@@ -713,6 +712,7 @@ function clearErr(id) { var el = document.getElementById(id); if (el) { el.textC
 function clearAllErr() { document.querySelectorAll('.form-error').forEach(function(e) { e.textContent = ''; e.classList.remove('show'); }); }
 function getPkgInfo(name) { for (var i = 0; i < packageData.length; i++) { if (packageData[i].name === name) return packageData[i]; } return null; }
 
+// --- TOAST & UI ---
 function showToast(title, msg, type) {
     type = type || 'success';
     var icons = { success: 'fa-check', error: 'fa-times', info: 'fa-info' };
@@ -732,6 +732,17 @@ function showPage(page) {
     document.getElementById('forgotPage').style.display = page === 'forgot' ? 'block' : 'none';
 }
 
+// --- NEW INVITE CODE SYSTEM ---
+function generateInviteCode() {
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // No I, O, 0, 1 to avoid confusion
+    var result = '';
+    for (var i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+// --- SIGNUP HANDLER ---
 function handleSignup() {
     clearAllErr();
     var name = document.getElementById('signupName').value.trim();
@@ -748,55 +759,79 @@ function handleSignup() {
     var btn = document.getElementById('signupBtn');
     btn.classList.add('loading');
     var email = phoneToEmail(phone);
-    var refCode = localStorage.getItem('finvexaRefCode') || '';
-    var refUid = null;
 
-    var lookupPromise = Promise.resolve();
-    if (refCode) {
-        lookupPromise = db.ref('usernames/' + refCode.toLowerCase()).once('value').then(function(snap) {
-            if (snap.exists()) refUid = snap.val();
+    // Check if referrer code exists in URL
+    // If no code in URL, referrer is null.
+    var referrerInviteCode = (refCodeParam) ? refCodeParam.toUpperCase() : null;
+
+    // Generate a unique invite code for the new user
+    var myInviteCode = generateInviteCode();
+
+    // Helper to find a unique code
+    function findUniqueCode(attempt) {
+        if (attempt > 10) throw new Error('Could not generate unique code');
+        return db.ref('inviteCodes/' + myInviteCode).once('value').then(function(snap) {
+            if (snap.exists()) {
+                myInviteCode = generateInviteCode();
+                return findUniqueCode(attempt + 1);
+            }
+            return myInviteCode;
         });
     }
 
-    lookupPromise.then(function() {
-        return db.ref('usernames/' + name.toLowerCase()).once('value');
-    }).then(function(usernameSnap) {
-        if (usernameSnap.exists()) {
-            btn.classList.remove('loading');
-            showErr('signupNameErr', 'This username is already taken');
-            throw new Error('username_taken');
-        }
-        return auth.createUserWithEmailAndPassword(email, pass);
-    }).then(function(cred) {
-        var updates = {};
-        // Saving both referral code and Referrer UID for robustness
-        updates['users/' + cred.user.uid] = {
-            username: name,
-            phone: formatPhone(phone),
-            phoneRaw: normalizePhone(phone),
-            totalBalance: 0,
-            totalInvestment: 0,
-            totalEarnings: 0,
-            activePackages: 0,
-            teamSize: 0,
-            teamInvestment: 0,
-            teamEarnings: 0,
-            referredBy: refCode.toLowerCase(),
-            referrerUid: refUid,
-            createdAt: Date.now()
-        };
-        updates['usernames/' + name.toLowerCase()] = cred.user.uid;
+    findUniqueCode(0).then(function(finalCode) {
+        return db.ref('usernames/' + name.toLowerCase()).once('value').then(function(usernameSnap) {
+            if (usernameSnap.exists()) {
+                btn.classList.remove('loading');
+                showErr('signupNameErr', 'This username is already taken');
+                throw new Error('username_taken');
+            }
+            return auth.createUserWithEmailAndPassword(email, pass);
+        }).then(function(cred) {
+            var uid = cred.user.uid;
+            var updates = {};
+            
+            // Save User Data
+            updates['users/' + uid] = {
+                username: name,
+                phone: formatPhone(phone),
+                phoneRaw: normalizePhone(phone),
+                totalBalance: 0,
+                totalInvestment: 0,
+                totalEarnings: 0,
+                activePackages: 0,
+                teamSize: 0,
+                teamInvestment: 0,
+                teamEarnings: 0,
+                inviteCode: finalCode, // NEW: Save own code
+                referredByInviteCode: referrerInviteCode, // NEW: Save referrer's code
+                createdAt: Date.now()
+            };
+            
+            // Map Username -> UID (For login/search)
+            updates['usernames/' + name.toLowerCase()] = uid;
 
-        if (refUid) {
-            updates['users/' + refUid + '/teamSize'] = firebase.database.ServerValue.increment(1);
-            updates['users/' + refUid + '/referrals/' + cred.user.uid] = true;
-            updates['users/' + refUid + '/referralDetails/' + cred.user.uid] = name;
-        }
+            // Map InviteCode -> UID (NEW: For Referrals)
+            updates['inviteCodes/' + finalCode] = uid;
 
-        return db.ref().update(updates);
+            // If valid referrer code, link them immediately
+            if (referrerInviteCode) {
+                // Fetch referrer UID from code
+                return db.ref('inviteCodes/' + referrerInviteCode).once('value').then(function(refSnap) {
+                    var referrerUid = refSnap.val();
+                    if (referrerUid) {
+                        updates['users/' + referrerUid + '/teamSize'] = firebase.database.ServerValue.increment(1);
+                        updates['users/' + referrerUid + '/referrals/' + uid] = true;
+                        updates['users/' + referrerUid + '/referralDetails/' + uid] = name;
+                    }
+                    return db.ref().update(updates);
+                });
+            } else {
+                return db.ref().update(updates);
+            }
+        });
     }).then(function() {
         btn.classList.remove('loading');
-        localStorage.removeItem('finvexaRefCode');
         showToast('Welcome!', 'Account created successfully.', 'success');
     }).catch(function(err) {
         if (err.message === 'username_taken') return;
@@ -808,6 +843,7 @@ function handleSignup() {
     });
 }
 
+// --- LOGIN HANDLER ---
 function handleLogin() {
     clearAllErr();
     var phone = document.getElementById('loginPhone').value.trim();
@@ -831,6 +867,7 @@ function handleLogin() {
     });
 }
 
+// --- UI GENERATORS ---
 function generatePackageCards() {
     var grid = document.getElementById('packagesGrid');
     grid.innerHTML = '';
@@ -860,6 +897,7 @@ function generateWithdrawMethods() {
 }
 generateWithdrawMethods();
 
+// --- AUTH LISTENER ---
 auth.onAuthStateChanged(function(user) {
     var loading = document.getElementById('loadingScreen');
     if (user) {
@@ -867,6 +905,10 @@ auth.onAuthStateChanged(function(user) {
         document.getElementById('authWrapper').style.display = 'none';
         document.getElementById('appWrapper').style.display = 'block';
         setupListeners(user.uid);
+        
+        // NEW: Ensure user has an invite code (for old users)
+        ensureInviteCodeExists(user.uid);
+        
     } else {
         currentUser = null;
         cleanupListeners();
@@ -875,12 +917,34 @@ auth.onAuthStateChanged(function(user) {
         tasksData = null;
         document.getElementById('authWrapper').style.display = 'flex';
         document.getElementById('appWrapper').style.display = 'none';
-        if (localStorage.getItem('finvexaRefCode')) { showPage('signup'); } else { showPage('login'); }
+        if (refCodeParam) { showPage('signup'); } else { showPage('login'); }
     }
     loading.classList.add('hide');
     setTimeout(function() { loading.style.display = 'none'; }, 500);
 });
 
+// --- BACKWARD COMPATIBILITY: Generate Code if missing ---
+function ensureInviteCodeExists(uid) {
+    db.ref('users/' + uid + '/inviteCode').once('value').then(function(snap) {
+        if (!snap.exists()) {
+            var newCode = generateInviteCode();
+            // Try to save
+            db.ref('inviteCodes/' + newCode).once('value').then(function(codeSnap) {
+                if(!codeSnap.exists()) {
+                    var updates = {};
+                    updates['users/' + uid + '/inviteCode'] = newCode;
+                    updates['inviteCodes/' + newCode] = uid;
+                    db.ref().update(updates);
+                } else {
+                    // Retry if collision (rare)
+                    ensureInviteCodeExists(uid);
+                }
+            });
+        }
+    });
+}
+
+// --- DATABASE LISTENERS ---
 var depCb = null, wdCb = null, taskCb = null, userCb = null, refCb = null;
 
 function setupListeners(uid) {
@@ -937,6 +1001,7 @@ function cleanupListeners() {
     userCb = null; depCb = null; wdCb = null; taskCb = null; refCb = null;
 }
 
+// --- UI UPDATE & REFERRAL LOGIC ---
 function renderReferralTeam(data) {
     var listEl = document.getElementById('refTeamList');
     if (!data) {
@@ -958,9 +1023,17 @@ function updateUI() {
     document.getElementById('welcomeText').textContent = 'Welcome back, ' + n;
     document.getElementById('sidebarName').textContent = n;
     document.getElementById('sidebarAvatar').textContent = n.charAt(0).toUpperCase();
+    
+    // NEW: Update Link with Invite Code
+    var myInviteCode = currentUserData.inviteCode;
+    if(!myInviteCode) {
+        // Fallback if update hasn't fired yet
+        myInviteCode = 'LOADING...'; 
+    }
     var baseUrl = window.location.origin + window.location.pathname;
-    var refLink = baseUrl + '?ref=' + n.toLowerCase();
+    var refLink = baseUrl + '?code=' + myInviteCode;
     document.getElementById('refLinkText').textContent = refLink;
+    
     document.getElementById('refTeamSize').textContent = currentUserData.teamSize || 0;
     document.getElementById('refTeamInvestment').textContent = formatNum(currentUserData.teamInvestment || 0);
     document.getElementById('refTeamEarnings').textContent = formatNum(currentUserData.teamEarnings || 0);
@@ -987,6 +1060,7 @@ function updateUI() {
     document.getElementById('profileJoined').textContent = currentUserData.createdAt ? formatFullDate(currentUserData.createdAt) : '-';
 }
 
+// --- CORE LOGIC: APPROVE DEPOSIT & COMMISSION ---
 function processApprovedDeposit(uid, depId, dep) {
     var pkgInfo = getPkgInfo(dep.planName);
     if (!pkgInfo) {
@@ -1004,6 +1078,7 @@ function processApprovedDeposit(uid, depId, dep) {
         var now = Date.now();
         var updates = {};
 
+        // 1. Create Task for Buyer
         updates['tasks/' + uid + '/' + depId] = {
             planName: dep.planName,
             planPrice: price,
@@ -1016,51 +1091,44 @@ function processApprovedDeposit(uid, depId, dep) {
             expiresAt: now + 30 * 24 * 60 * 60 * 1000
         };
 
+        // 2. Update Buyer's Stats
         updates['users/' + uid + '/activePackages'] = firebase.database.ServerValue.increment(1);
         updates['users/' + uid + '/totalInvestment'] = firebase.database.ServerValue.increment(price);
 
-        // --- FIXED ROBUST REFERRAL LOGIC ---
-        // 1. Try to get Referrer UID from user data first
-        var refUidPromise = db.ref('users/' + uid + '/referrerUid').once('value').then(function(snap) {
+        // 3. COMMISSION LOGIC (The Fix)
+        // Fetch the buyer's referredByInviteCode
+        var buyerRefCodePromise = db.ref('users/' + uid + '/referredByInviteCode').once('value').then(function(snap) {
             return snap.val();
         });
 
-        // If UID is missing, fallback to username lookup
-        refUidPromise.then(function(referrerUid) {
-            if (!referrerUid) {
-                // Check if we have a referral code instead
-                return db.ref('users/' + uid + '/referredBy').once('value').then(function(codeSnap) {
-                    var refCode = codeSnap.val();
-                    if (refCode) {
-                        // Look up UID for this username
-                        return db.ref('usernames/' + refCode.toLowerCase()).once('value').then(function(uidSnap) {
-                            return uidSnap.val(); // Returns UID or null
-                        });
+        return buyerRefCodePromise.then(function(refCode) {
+            if (!refCode) return updates; // No referrer
+
+            // Look up Referrer UID from the 'inviteCodes' table
+            return db.ref('inviteCodes/' + refCode).once('value').then(function(snap) {
+                var referrerUid = snap.val();
+                
+                if (referrerUid) {
+                    var commission = Math.round(price * 0.15);
+                    if (commission > 0) {
+                        // Add Commission to Referrer
+                        updates['users/' + referrerUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
+                        updates['users/' + referrerUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
+                        updates['users/' + referrerUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
+                        updates['users/' + referrerUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
                     }
-                    return null;
-                });
-            }
-            return referrerUid;
-        }).then(function(finalReferrerUid) {
-            if (finalReferrerUid) {
-                var commission = Math.round(price * 0.15);
-                if (commission > 0) {
-                    updates['users/' + finalReferrerUid + '/totalBalance'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + finalReferrerUid + '/totalEarnings'] = firebase.database.ServerValue.increment(commission);
-                    updates['users/' + finalReferrerUid + '/teamInvestment'] = firebase.database.ServerValue.increment(price);
-                    updates['users/' + finalReferrerUid + '/teamEarnings'] = firebase.database.ServerValue.increment(commission);
-                    
-                    // Save the found UID back to the buyer to prevent future lookups
-                    updates['users/' + uid + '/referrerUid'] = finalReferrerUid;
                 }
-            }
-            // Execute all updates in one transaction
-            return db.ref().update(updates);
-        }).then(function() {
-            showToast('Package Activated!', dep.planName + ' is now active for 30 days. Claim daily earnings!', 'success');
-        }).catch(function(err) {
-            console.error('Deposit process error:', err);
+                return updates;
+            });
         });
+    }).then(function(finalUpdates) {
+        if(finalUpdates) {
+            return db.ref().update(finalUpdates);
+        }
+    }).then(function() {
+        showToast('Package Activated!', dep.planName + ' is now active for 30 days. Claim daily earnings!', 'success');
+    }).catch(function(err) {
+        console.error('Deposit process error:', err);
     });
 }
 
